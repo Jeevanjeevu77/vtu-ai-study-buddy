@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VTU AI Study Buddy</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #343541;
+            margin: 0;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            background: #202123;
+            padding: 15px;
+            margin: 0;
+        }
+
+        #chat-container {
+            height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+
+        .user {
+            background: #10a37f;
+            margin-left: auto;
+        }
+
+        .ai {
+            background: #444654;
+            margin-right: auto;
+        }
+
+        #input-container {
+            display: flex;
+            padding: 10px;
+            background: #202123;
+        }
+
+        select,
+        input {
+            padding: 8px;
+            margin-right: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        button {
+            padding: 8px 15px;
+            background: #10a37f;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>VTU AI Study Buddy 🤖</h1>
+
+    <div id="chat-container"></div>
+
+    <div id="input-container">
+        <select id="subject">
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Data Science">Data Science</option>
+        </select>
+
+        <input type="text" id="question" placeholder="Ask your question">
+        <button onclick="askAI()">Send</button>
+    </div>
+
+    <script>
+        async function askAI() {
+            const questionInput = document.getElementById("question");
+            const subject = document.getElementById("subject").value;
+            const question = questionInput.value;
+
+            if (!question) return;
+
+            const chatContainer = document.getElementById("chat-container");
+
+            const userMessage = document.createElement("div");
+            userMessage.className = "message user";
+            userMessage.innerText = question;
+            chatContainer.appendChild(userMessage);
+
+            questionInput.value = "";
+
+            const typingMessage = document.createElement("div");
+            typingMessage.className = "message ai";
+            typingMessage.innerText = "AI is typing...";
+            chatContainer.appendChild(typingMessage);
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/ask", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        question: "Subject: " + subject + ". Question: " + question
+                    })
+                });
+
+                const data = await response.json();
+                typingMessage.innerText = data.answer;
+
+            } catch (error) {
+                typingMessage.innerText = "Error connecting to server.";
+            }
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+
+</body>
+
+</html>

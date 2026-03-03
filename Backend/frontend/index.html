@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VTU AI Study Buddy</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 40px;
+        }
+
+        #chat-box {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+        }
+
+        input {
+            width: 60%;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>VTU AI Study Buddy 🤖</h1>
+
+    <div id="chat-box"></div>
+
+    <input type="text" id="question" placeholder="Ask your question...">
+    <button onclick="askAI()">Send</button>
+
+    <script>
+        async function askAI() {
+            const question = document.getElementById("question").value;
+
+            const response = await fetch("http://127.0.0.1:8000/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: question })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("chat-box").innerHTML +=
+                "<p><b>You:</b> " + question + "</p>" +
+                "<p><b>AI:</b> " + data.answer + "</p>";
+        }
+    </script>
+
+</body>
+
+</html>
