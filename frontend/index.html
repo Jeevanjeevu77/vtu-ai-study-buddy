@@ -1,136 +1,1551 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>VTU AI Study Buddy</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #343541;
-            margin: 0;
-            color: white;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VTU Genius AI — Your Smart Study Buddy</title>
+  <meta name="description"
+    content="VTU Genius AI helps students with notes, previous year questions, important topics, and AI-powered Q&A for all VTU subjects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        h1 {
-            text-align: center;
-            background: #202123;
-            padding: 15px;
-            margin: 0;
-        }
+    :root {
+      --bg: #020617;
+      --bg2: #0a1120;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface2: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.07);
+      --blue: #3b82f6;
+      --blue-glow: rgba(59, 130, 246, 0.35);
+      --violet: #8b5cf6;
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --red: #f87171;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --sidebar-w: 260px;
+    }
 
-        #chat-container {
-            height: 70vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
-            max-width: 70%;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .user {
-            background: #10a37f;
-            margin-left: auto;
-        }
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .ai {
-            background: #444654;
-            margin-right: auto;
-        }
+    /* Ambient glow blobs */
+    .glow-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: blobDrift 12s ease-in-out infinite alternate;
+    }
 
-        #input-container {
-            display: flex;
-            padding: 10px;
-            background: #202123;
-        }
+    .glow-blob.b1 {
+      width: 500px;
+      height: 500px;
+      background: var(--blue);
+      top: -100px;
+      left: -100px;
+    }
 
-        select,
-        input {
-            padding: 8px;
-            margin-right: 5px;
-            border-radius: 5px;
-            border: none;
-        }
+    .glow-blob.b2 {
+      width: 400px;
+      height: 400px;
+      background: var(--violet);
+      bottom: -80px;
+      right: -80px;
+      animation-delay: -6s;
+    }
 
-        input {
-            flex: 1;
-        }
+    @keyframes blobDrift {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
 
-        button {
-            padding: 8px 15px;
-            background: #10a37f;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+      to {
+        transform: translate(40px, 30px) scale(1.08);
+      }
+    }
+
+    /* ─── SIDEBAR ──────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: rgba(10, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      z-index: 100;
+      gap: 8px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: 0 0 20px var(--blue-glow);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px 4px;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .nav-btn .icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn:hover {
+      background: var(--surface2);
+      border-color: var(--border);
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.15));
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    /* ─── MAIN LAYOUT ──────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── TOPBAR ───────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-right: auto;
+    }
+
+    select {
+      appearance: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 7px 32px 7px 12px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    select:hover,
+    select:focus {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    select option {
+      background: #0f172a;
+      color: var(--text);
+    }
+
+    /* ─── CONTENT AREA ─────────────────────────────────── */
+    .content-area {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+    }
+
+    /* ─── CHAT PANEL ───────────────────────────────────── */
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 57px);
+      border-right: 1px solid var(--border);
+    }
+
+    .chat-header {
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-header h2 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .chat-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    #chat::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #chat::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #chat::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    /* Chat bubbles */
+    .msg {
+      display: flex;
+      gap: 10px;
+      animation: msgIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      max-width: 85%;
+    }
+
+    @keyframes msgIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+    }
+
+    .msg-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+
+    .msg.user .msg-avatar {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+    }
+
+    .msg.bot .msg-avatar {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border: 1px solid var(--border);
+    }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .msg.user .msg-bubble {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.bot .msg-bubble {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    /* Typing indicator */
+    .typing-indicator .msg-bubble {
+      padding: 12px 16px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: typingBounce 1.2s ease infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingBounce {
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* Welcome message */
+    .welcome-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .welcome-card .wc-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .welcome-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-card p {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── CHAT INPUT ───────────────────────────────────── */
+    .chat-input-area {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    #q {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      padding: 11px 14px;
+      outline: none;
+      resize: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #q::placeholder {
+      color: var(--muted);
+    }
+
+    #q:focus {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 15px var(--blue-glow);
+    }
+
+    .send-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 20px var(--blue-glow);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ─── NOTES PANEL ──────────────────────────────────── */
+    .notes-panel {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 57px);
+      overflow: hidden;
+    }
+
+    .notes-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notes-header h2 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .notes-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .notes-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .notes-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .notes-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+    }
+
+    .note-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      animation: msgIn 0.3s ease both;
+    }
+
+    .note-card:hover {
+      background: var(--surface2);
+      border-color: rgba(59, 130, 246, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .note-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .note-subject {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .note-type-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-notes {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+
+    .badge-important {
+      background: rgba(250, 204, 21, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(250, 204, 21, 0.25);
+    }
+
+    .badge-questions {
+      background: rgba(34, 211, 238, 0.12);
+      color: #22d3ee;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+    }
+
+    .badge-expected {
+      background: rgba(139, 92, 246, 0.12);
+      color: #a78bfa;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+    }
+
+    .note-preview {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .empty-notes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 10px;
+      color: var(--muted);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .empty-notes .en-icon {
+      font-size: 36px;
+      opacity: 0.4;
+    }
+
+    .empty-notes p {
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+
+    /* ─── QUICK ACTIONS ────────────────────────────────── */
+    .quick-actions {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .qa-btn {
+      padding: 9px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .qa-btn:hover {
+      background: var(--surface2);
+      border-color: rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+    }
+
+    /* ─── TOAST ────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── SCROLLBAR GLOBAL ─────────────────────────────── */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ─── AUTH MODAL ───────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      place-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      display: grid;
+      opacity: 1;
+    }
+
+    .modal-container {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 32px;
+      width: 360px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      animation: modalDrop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modalDrop {
+      0% {
+        transform: translateY(-40px) scale(0.95);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .auth-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .auth-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: transform 0.1s, box-shadow 0.2s;
+    }
+
+    .auth-btn:hover {
+      box-shadow: 0 4px 15px var(--blue-glow);
+    }
+
+    .auth-btn:active {
+      transform: scale(0.98);
+    }
+
+    .auth-toggle {
+      font-size: 12.5px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .auth-toggle:hover {
+      color: #93c5fd;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Ambient blobs -->
+  <div class="glow-blob b1"></div>
+  <div class="glow-blob b2"></div>
 
-    <h1>VTU AI Study Buddy 🤖</h1>
-
-    <div id="chat-container"></div>
-
-    <div id="input-container">
-        <select id="subject">
-            <option value="Artificial Intelligence">Artificial Intelligence</option>
-            <option value="Machine Learning">Machine Learning</option>
-            <option value="Data Science">Data Science</option>
-        </select>
-
-        <input type="text" id="question" placeholder="Ask your question">
-        <button onclick="askAI()">Send</button>
+  <!-- ── SIDEBAR ──────────────────────── -->
+  <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main Navigation">
+    <div class="logo">
+      <div class="logo-icon">🧠</div>
+      <div class="logo-text">
+        VTU Genius AI
+        <span>Powered by LLaMA 3</span>
+      </div>
     </div>
 
-    <script>
-        async function askAI() {
-            const questionInput = document.getElementById("question");
-            const subject = document.getElementById("subject").value;
-            const question = questionInput.value;
+    <div class="sidebar-label" style="color: #fcd34d; font-weight: 800; font-size: 11px;">🎯 PLACEMENT PORTAL</div>
+    <button class="nav-btn special-btn" id="btn-aptitude" onclick="handleAction('aptitude')" 
+      title="Practice company-specific aptitude questions" style="border: 1px solid rgba(252, 211, 77, 0.3); background: rgba(252, 211, 77, 0.05);">
+      <span class="icon">🚀</span> Aptitude Mastery
+    </button>
+    <button class="nav-btn special-btn" id="btn-mock" onclick="handleAction('mock')" 
+      title="AI-powered company mock interview" style="border: 1px solid rgba(252, 211, 77, 0.2); background: rgba(252, 211, 77, 0.03); margin-top: 4px;">
+      <span class="icon">🎤</span> Mock Interview
+    </button>
 
-            if (!question) return;
+    <div class="sidebar-label">AI Actions</div>
 
-            const chatContainer = document.getElementById("chat-container");
+    <button class="nav-btn" id="btn-questions" onclick="handleAction('questions')"
+      title="Generate previous year questions">
+      <span class="icon">📄</span> Past Questions
+    </button>
+    <button class="nav-btn" id="btn-content" onclick="handleAction('content')" title="View subject content and notes">
+      <span class="icon">📘</span> View Notes
+    </button>
+    <button class="nav-btn" id="btn-important" onclick="handleAction('important')"
+      title="See important questions for exam">
+      <span class="icon">⭐</span> Important Q&A
+    </button>
+    <button class="nav-btn" id="btn-expected" onclick="handleAction('expected')" title="See expected exam questions">
+      <span class="icon">🔮</span> Expected Q&A
+    </button>
 
-            const userMessage = document.createElement("div");
-            userMessage.className = "message user";
-            userMessage.innerText = question;
-            chatContainer.appendChild(userMessage);
+    <div class="sidebar-label" style="margin-top:8px">Study Tools</div>
 
-            questionInput.value = "";
+    <button class="nav-btn" id="btn-exam" onclick="handleAction('exam')" title="Start a mock exam">
+      <span class="icon">📝</span> Mock Exam
+    </button>
 
-            const typingMessage = document.createElement("div");
-            typingMessage.className = "message ai";
-            typingMessage.innerText = "AI is typing...";
-            chatContainer.appendChild(typingMessage);
+    <div class="sidebar-label" style="margin-top:8px">My Files</div>
+    <input type="file" id="pdf-upload" accept="application/pdf" style="display:none;" onchange="uploadPDF(event)">
+    <button class="nav-btn" id="btn-upload" onclick="document.getElementById('pdf-upload').click()"
+      title="Upload PDF Notes for the selected subject">
+      <span class="icon">📤</span> Upload PDF
+    </button>
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+    <button class="nav-btn" id="btn-clear" onclick="clearChat()" title="Clear chat history">
+      <span class="icon">🗑️</span> Clear Chat
+    </button>
 
-            try {
-                const response = await fetch("http://127.0.0.1:8000/ask", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        question: "Subject: " + subject + ". Question: " + question
-                    })
-                });
+    <div class="sidebar-footer">
+      <span class="badge">API Connected</span>
+    </div>
+  </nav>
 
-                const data = await response.json();
-                typingMessage.innerText = data.answer;
+  <!-- ── MAIN ────────────────────────── -->
+  <div class="main">
 
-            } catch (error) {
-                typingMessage.innerText = "Error connecting to server.";
-            }
+    <!-- Topbar with controls -->
+    <header class="topbar" role="banner">
+      <div class="topbar-title">💬 AI Study Session</div>
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+      <label for="scheme" style="font-size:12px; color:var(--muted)">Scheme</label>
+      <select id="scheme" onchange="loadSubjects()" aria-label="Select Scheme">
+        <option value="2018">2018</option>
+        <option value="2021">2021</option>
+        <option value="2022" selected>2022</option>
+      </select>
+
+      <label for="sem" style="font-size:12px; color:var(--muted)">Semester</label>
+      <select id="sem" onchange="loadSubjects()" aria-label="Select Semester">
+        <option value="1">Sem 1</option>
+        <option value="2">Sem 2</option>
+        <option value="3" selected>Sem 3</option>
+        <option value="4">Sem 4</option>
+        <option value="5">Sem 5</option>
+        <option value="6">Sem 6</option>
+        <option value="7">Sem 7</option>
+        <option value="8">Sem 8</option>
+      </select>
+
+      <label for="subject" style="font-size:12px; color:var(--muted)">Subject</label>
+      <select id="subject" aria-label="Select Subject">
+        <option>Select Subject</option>
+      </select>
+
+      <button id="btn-auth-trigger" onclick="openAuthModal()" class="qa-btn"
+        style="padding: 7px 14px; border-radius: 8px; margin-left: auto;">
+        <span class="icon">👤</span> Sign In
+      </button>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+
+      <!-- Chat Panel -->
+      <section class="chat-panel" aria-label="AI Chat">
+        <div class="chat-header">
+          <span style="font-size:22px">🤖</span>
+          <div>
+            <h2>AI Tutor</h2>
+            <p>Ask anything about your VTU subjects</p>
+          </div>
+        </div>
+
+        <div id="chat" role="log" aria-live="polite">
+          <!-- Welcome card shown on start -->
+          <div class="welcome-card" id="welcome-card">
+            <div class="wc-icon">🎓</div>
+            <h3>Welcome to VTU Genius AI</h3>
+            <p>Select your Scheme, Semester and Subject from the top bar,<br />then use the sidebar actions or type a
+              question below.</p>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <textarea id="q" rows="1" placeholder="Ask a question about your subject…" onkeydown="handleKey(event)"
+            aria-label="Type your question"></textarea>
+          <button class="send-btn" id="send-btn" onclick="ask()" title="Send" aria-label="Send message">➤</button>
+        </div>
+      </section>
+
+      <!-- Notes Library Panel -->
+      <aside class="notes-panel" aria-label="Notes Library">
+        <div class="notes-header">
+          <h2>📚 Notes Library</h2>
+          <p>Fetched content appears here</p>
+          <div id="download-actions" style="margin-top: 8px; display: none; gap: 8px;">
+            <button class="qa-btn" style="padding: 4px 8px; font-size: 11px;" onclick="downloadPDF('notes')">📥 Notes PDF</button>
+            <button class="qa-btn" style="padding: 4px 8px; font-size: 11px;" onclick="downloadPDF('questions')">📥 PYQ PDF</button>
+          </div>
+        </div>
+
+        <div class="notes-list" id="notes-list">
+          <div class="empty-notes" id="empty-notes">
+            <div class="en-icon">📂</div>
+            <p>Select a subject and click<br /><strong>View Notes</strong> or <strong>Important Q&A</strong><br />to see
+              content here.</p>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="qa-btn" onclick="handleAction('questions')" id="qa-questions">📄 PYQ</button>
+          <button class="qa-btn" onclick="handleAction('content')" id="qa-content">📘 Notes</button>
+          <button class="qa-btn" onclick="handleAction('important')" id="qa-important">⭐ Important</button>
+          <button class="qa-btn" onclick="handleAction('expected')" id="qa-expected">🔮 Expected</button>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const BASE = "http://127.0.0.1:8000";
+
+    /* ── Toast ─────────────────────────────────────────── */
+    function showToast(msg, duration = 2500) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove("show"), duration);
+    }
+
+    /* ── Load Subjects ──────────────────────────────────── */
+    async function loadSubjects() {
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
+
+      const dropdown = document.getElementById("subject");
+      dropdown.innerHTML = "<option>Loading…</option>";
+
+      try {
+        const res = await fetch(`${BASE}/subjects?scheme=${scheme}&sem=${sem}`);
+        const data = await res.json();
+
+        dropdown.innerHTML = "";
+
+        if (!data.subjects || data.subjects.length === 0) {
+          dropdown.innerHTML = "<option>No subjects found</option>";
+          return;
         }
-    </script>
 
+        dropdown.innerHTML = "<option value=''>Select Subject</option>";
+        data.subjects.forEach(sub => {
+          const opt = document.createElement("option");
+          opt.value = sub;
+          opt.textContent = sub;
+          dropdown.appendChild(opt);
+        });
+      } catch {
+        dropdown.innerHTML = "<option>Server offline</option>";
+        showToast("⚠️ Backend not reachable. Start uvicorn first.");
+      }
+    }
+
+    /* ── Chat Utilities ─────────────────────────────────── */
+    function removeWelcome() {
+      const w = document.getElementById("welcome-card");
+      if (w) w.remove();
+    }
+
+    function addMsg(text, type) {
+      removeWelcome();
+      const chat = document.getElementById("chat");
+
+      const wrap = document.createElement("div");
+      wrap.className = `msg ${type}`;
+
+      const avatar = document.createElement("div");
+      avatar.className = "msg-avatar";
+      avatar.textContent = type === "user" ? "👤" : "🤖";
+
+      const bubble = document.createElement("div");
+      bubble.className = "msg-bubble";
+      bubble.textContent = text;
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+      return bubble;
+    }
+
+    function showTyping() {
+      removeWelcome();
+      const chat = document.getElementById("chat");
+      const wrap = document.createElement("div");
+      wrap.className = "msg bot typing-indicator";
+      wrap.id = "typing";
+      wrap.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById("typing");
+      if (t) t.remove();
+    }
+
+    function clearChat() {
+      const chat = document.getElementById("chat");
+      chat.innerHTML = `<div class="welcome-card" id="welcome-card"><div class="wc-icon">🎓</div><h3>Welcome to VTU Genius AI</h3><p>Select your Scheme, Semester and Subject from the top bar,<br/>then use the sidebar actions or type a question below.</p></div>`;
+      showToast("💬 Chat cleared");
+    }
+
+    /* ── Notes Panel ─────────────────────────────────────── */
+    function clearNoteCards() {
+      const list = document.getElementById("notes-list");
+      list.innerHTML = "";
+    }
+
+    function addNoteCard(subject, type, content) {
+      const empty = document.getElementById("empty-notes");
+      if (empty) empty.remove();
+
+      const list = document.getElementById("notes-list");
+      const card = document.createElement("div");
+      card.className = "note-card";
+
+      const badgeClass = {
+        notes: "badge-notes",
+        important: "badge-important",
+        questions: "badge-questions",
+        expected: "badge-expected"
+      }[type] || "badge-notes";
+
+      const label = {
+        notes: "Notes",
+        important: "Important",
+        questions: "PYQ",
+        expected: "Expected"
+      }[type] || "Content";
+
+      const preview = Array.isArray(content)
+        ? content.slice(0, 3).join(" • ")
+        : String(content).slice(0, 120);
+
+      card.innerHTML = `
+        <div class="note-card-top">
+          <div class="note-subject">${subject}</div>
+          <span class="note-type-badge ${badgeClass}">${label}</span>
+        </div>
+        <div class="note-preview">${preview || "No preview available"}</div>
+      `;
+
+      list.prepend(card);
+    }
+
+    /* ── Sidebar active state ────────────────────────────── */
+    function setActive(id) {
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      const el = document.getElementById(`btn-${id}`);
+      if (el) el.classList.add("active");
+    }
+
+    /* ── Key Handler ─────────────────────────────────────── */
+    function handleKey(e) {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); }
+    }
+
+    /* ── Handle Sidebar Actions ──────────────────────────── */
+    async function handleAction(action) {
+      const subject = document.getElementById("subject").value;
+      if (!subject || subject === "Select Subject" || subject === "") {
+        showToast("❌ Please select a subject first");
+        return;
+      }
+      setActive(action);
+
+      if (action === "questions") await generateQ();
+      else if (action === "content") await getContent();
+      else if (action === "important") await importantQ();
+      else if (action === "expected") await expectedQ();
+      else if (action === "exam") await startExam();
+      else if (action === "aptitude") await aptitudePrep();
+      else if (action === "mock") await mockInterview();
+
+      // Show download actions for subject content
+      if (["questions", "content", "important", "expected"].includes(action)) {
+        document.getElementById("download-actions").style.display = "flex";
+      }
+    }
+
+    /* ── Download PDF ────────────────────────────────────── */
+    function downloadPDF(type) {
+      const subject = document.getElementById("subject").value;
+      if (!subject) return;
+      const url = type === 'notes' 
+        ? `${BASE}/download/notes?subject=${subject}` 
+        : `${BASE}/download/questions?subject=${subject}&type=pyq`;
+      window.open(url, '_blank');
+      showToast(`📥 Downloading ${type.toUpperCase()}...`);
+    }
+
+    /* ── Aptitude Prep ───────────────────────────────────── */
+    async function aptitudePrep() {
+      const company = prompt("Enter company name (e.g. TCS, Infosys, Wipro, Accenture):", "TCS");
+      if (!company) return;
+
+      addMsg(`🔍 Analyzing ${company} past year patterns for Aptitude & Logical Reasoning...`, "user");
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/aptitude`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ company })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if (data.questions && data.questions.length) {
+          addMsg(`🎯 Accurate Aptitude Practice for ${company}:`, "bot");
+          data.questions.forEach((q, i) => {
+            const text = `Q${i+1} [${q.category}]\n${q.question}\nA) ${q.options[0]}\nB) ${q.options[1]}\nC) ${q.options[2]}\nD) ${q.options[3]}`;
+            addMsg(text, "bot");
+          });
+          addNoteCard(company, "questions", "Aptitude questions fetched.");
+        } else if (data.ai_suggestion) {
+          addMsg(`🤖 Pattern Analysis for ${company} complete. Here are recommended questions:`, "bot");
+          addMsg(data.ai_suggestion, "bot");
+          addNoteCard(company, "questions", "Company-specific aptitude patterns analyzed.");
+        }
+      } catch {
+        removeTyping();
+        showToast("⚠️ Failed to fetch aptitude questions.");
+      }
+    }
+
+    /* ── Mock Interview ──────────────────────────────────── */
+    async function mockInterview() {
+      const company = prompt("Enter target company (e.g. TCS, Google, Microsoft):", "TCS");
+      if (!company) return;
+      const role = prompt("Enter job role (e.g. Software Engineer, Data Analyst):", "Software Engineer");
+      if (!role) return;
+
+      addMsg(`🎤 Starting Mock Interview Prep for ${role} at ${company}...`, "user");
+      showTyping();
+
+      try {
+        const res = await fetch(`${BASE}/mock-interview`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ company, role })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if (data.questions) {
+          addMsg(`🤖 Here are some interview questions tailored for ${company} (${role}):`, "bot");
+          addMsg(data.questions, "bot");
+          addNoteCard(`${company} Interview`, "important", data.questions);
+        }
+      } catch {
+        removeTyping();
+        showToast("⚠️ Failed to start mock interview.");
+      }
+    }
+
+    /* ── Ask AI ──────────────────────────────────────────── */
+    async function ask() {
+      const textarea = document.getElementById("q");
+      const q = textarea.value.trim();
+      const subject = document.getElementById("subject").value;
+      const sem = document.getElementById("sem").value;
+
+      if (!q) return;
+
+      textarea.value = "";
+      addMsg(q, "user");
+      showTyping();
+
+      try {
+        const res = await fetch(BASE + "/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: q, subject, sem, token: localStorage.getItem("vtu_token") || undefined })
+        });
+        const data = await res.json();
+        removeTyping();
+        addMsg(data.answer || "No response", "bot");
+      } catch {
+        removeTyping();
+        addMsg("⚠️ Could not reach the server. Is uvicorn running?", "bot");
+      }
+    }
+
+    /* ── Past Questions ──────────────────────────────────── */
+    async function generateQ() {
+      const subject = document.getElementById("subject").value;
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if (!data.questions || !data.questions.length) {
+          addMsg("❌ No questions found for this subject.", "bot");
+          return;
+        }
+
+        const text = "📄 Previous Year Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        addMsg(text, "bot");
+        addNoteCard(subject, "questions", data.questions);
+      } catch { removeTyping(); addMsg("⚠️ Server error fetching questions.", "bot"); }
+    }
+
+    /* ── Get Content / Notes ─────────────────────────────── */
+    async function getContent() {
+      const subject = document.getElementById("subject").value;
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/get-content`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject })
+        });
+        const data = await res.json();
+        removeTyping();
+        const notes = data.notes || "No notes available.";
+        addMsg("📘 Notes for " + subject + ":\n\n" + notes, "bot");
+        addNoteCard(subject, "notes", notes);
+      } catch { removeTyping(); addMsg("⚠️ Server error fetching content.", "bot"); }
+    }
+
+    /* ── Important Questions ──────────────────────────────── */
+    async function importantQ() {
+      const subject = document.getElementById("subject").value;
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/important-questions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        const qs = data.questions;
+        if (!qs || !qs.length) { addMsg("⭐ No important questions found.", "bot"); return; }
+
+        const text = "⭐ Important Questions:\n\n" + qs.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        addMsg(text, "bot");
+        addNoteCard(subject, "important", qs);
+      } catch { removeTyping(); addMsg("⚠️ Server error.", "bot"); }
+    }
+
+    /* ── Expected Questions ───────────────────────────────── */
+    async function expectedQ() {
+      const subject = document.getElementById("subject").value;
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/expected-questions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject, scheme, sem })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if (!data.questions || !data.questions.length) {
+          addMsg("🔮 No expected questions found.", "bot");
+          return;
+        }
+
+        const text = "🔮 Expected Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        addMsg(text, "bot");
+        addNoteCard(subject, "expected", data.questions);
+      } catch { removeTyping(); addMsg("⚠️ Server error.", "bot"); }
+    }
+
+    /* ── Mock Exam ────────────────────────────────────────── */
+    async function startExam() {
+      const subject = document.getElementById("subject").value;
+      showTyping();
+      try {
+        const res = await fetch(`${BASE}/exam/start`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject })
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if (!data.questions || !data.questions.length) {
+          addMsg("📝 No exam questions available for this subject.", "bot");
+          return;
+        }
+
+        const text = "📝 Mock Exam — " + subject + "\n\nAnswer each question briefly:\n\n"
+          + data.questions.map((q, i) => `Q${i + 1}. ${q}`).join("\n\n");
+        addMsg(text, "bot");
+        showToast("📝 Mock exam started for " + subject);
+      } catch { removeTyping(); addMsg("⚠️ Server error starting exam.", "bot"); }
+    }
+
+    /* ── Upload PDF ───────────────────────────────────────── */
+    async function uploadPDF(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const subject = document.getElementById("subject").value;
+      if (!subject || subject === "Select Subject" || subject === "") {
+        showToast("❌ Please select a subject first before uploading.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("subject", subject);
+
+      showToast("⏳ Uploading & Indexing PDF...");
+      try {
+        const headers = {};
+        const t = localStorage.getItem("vtu_token");
+        if (t) headers["Authorization"] = "Bearer " + t;
+
+        const res = await fetch(`${BASE}/upload`, {
+          method: "POST",
+          headers: headers,
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error);
+
+        showToast("✅ " + (data.message || "Upload successful"));
+        addMsg(`Your PDF **${file.name}** has been processed and answers for **${subject}** will now use it as context.`, "bot");
+      } catch (err) {
+        showToast("⚠️ Upload failed.");
+        addMsg(`⚠️ PDF upload failed: ${err.message}`, "bot");
+      }
+
+      // Clear input
+      event.target.value = "";
+    }
+
+    /* ── Init ─────────────────────────────────────────────── */
+    window.onload = function () {
+      loadSubjects();
+      if (localStorage.getItem("vtu_token")) {
+        const btn = document.getElementById("btn-auth-trigger");
+        if (btn) btn.innerHTML = '<span class="icon">👤</span> Logout';
+      }
+    };
+
+    /* ── Auth Functions ───────────────────────────────────── */
+    function openAuthModal() {
+      if (localStorage.getItem("vtu_token")) {
+        localStorage.removeItem("vtu_token");
+        const btn = document.getElementById("btn-auth-trigger");
+        if (btn) btn.innerHTML = '<span class="icon">👤</span> Sign In';
+        showToast("Logged out successfully");
+        return;
+      }
+      document.getElementById('auth-modal').classList.add('show');
+    }
+    function closeAuthModal() { document.getElementById('auth-modal').classList.remove('show'); }
+    function toggleAuthMode() {
+      const mode = document.getElementById('auth-mode');
+      const btn = document.getElementById('auth-submit-btn');
+      if (mode.value === 'login') {
+        mode.value = 'register';
+        btn.textContent = 'Register';
+        document.getElementById('auth-toggle-text').innerHTML = 'Already have an account? <span style="color:#93c5fd">Login</span>';
+      } else {
+        mode.value = 'login';
+        btn.textContent = 'Login';
+        document.getElementById('auth-toggle-text').innerHTML = 'Need an account? <span style="color:#93c5fd">Register</span>';
+      }
+    }
+    async function submitAuth() {
+      const uname = document.getElementById('auth-username').value.trim();
+      const pass = document.getElementById('auth-password').value.trim();
+      if (!uname || !pass) return showToast("Enter credentials");
+
+      const mode = document.getElementById('auth-mode').value;
+      try {
+        if (mode === 'register') {
+          const res = await fetch(`${BASE}/register`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: uname, password: pass })
+          });
+          const data = await res.json();
+          if (data.error) return showToast("❌ " + data.error);
+          showToast("✅ Registered! Logging in...");
+          toggleAuthMode();
+          await submitAuth();
+        } else {
+          const res = await fetch(`${BASE}/token`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: uname, password: pass })
+          });
+          const data = await res.json();
+          if (data.error) return showToast("❌ " + data.error);
+          localStorage.setItem("vtu_token", data.access_token);
+          const btn = document.getElementById("btn-auth-trigger");
+          if (btn) btn.innerHTML = '<span class="icon">👤</span> Logout';
+          closeAuthModal();
+          showToast("✅ Logged in as " + data.username);
+        }
+      } catch (err) { showToast("⚠️ Server offline"); }
+    }
+  </script>
+
+  <!-- HTML Auth Modal -->
+  <div id="auth-modal" class="modal-overlay" onclick="if(event.target===this) closeAuthModal()">
+    <div class="modal-container">
+      <div class="modal-header">Welcome to VTU Genius</div>
+      <input type="hidden" id="auth-mode" value="login">
+      <input type="text" id="auth-username" class="auth-input" placeholder="Username">
+      <input type="password" id="auth-password" class="auth-input" placeholder="Password">
+      <button id="auth-submit-btn" class="auth-btn" onclick="submitAuth()">Login</button>
+      <div id="auth-toggle-text" class="auth-toggle" onclick="toggleAuthMode()">
+        Need an account? <span style="color:#93c5fd">Register</span>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

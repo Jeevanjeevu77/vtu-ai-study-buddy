@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VTU AI Study Buddy</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+        }
+
+        #chatbox {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user {
+            text-align: right;
+            margin: 10px;
+            color: blue;
+        }
+
+        .bot {
+            text-align: left;
+            margin: 10px;
+            color: green;
+        }
+
+        input {
+            width: 50%;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>VTU AI Study Buddy 🤖</h1>
+
+    <div id="chatbox"></div>
+
+    <input id="question" placeholder="Ask your question..." />
+    <button onclick="askAI()">Send</button>
+
+    <script>
+
+        async function askAI() {
+
+            let question = document.getElementById("question").value
+
+            let chatbox = document.getElementById("chatbox")
+
+            chatbox.innerHTML += `<div class="user">${question}</div>`
+
+            let response = await fetch("http://127.0.0.1:8000/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    question: question
+                })
+            })
+
+            let data = await response.json()
+
+            chatbox.innerHTML += `<div class="bot">${data.answer}</div>`
+
+            document.getElementById("question").value = ""
+        }
+
+    </script>
+
+</body>
+
+</html>
