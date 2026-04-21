@@ -21,7 +21,10 @@ import io
 
 # ── Boot ───────────────────────────────────────────────────────────────────────
 load_dotenv(override=True)
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Database setup skipped or failed: {e}")
 
 app = FastAPI(title="VTU Genius AI")
 
@@ -61,9 +64,15 @@ ALIAS = {
 def resolve_code(name: str) -> str:
     return ALIAS.get(name.strip().lower(), name.strip())
 
-def get_subject(db: Session, name: str) -> Subject | None:
+def get_subject(db: Session, name: str, scheme: str = None, sem: str = None) -> Subject | None:
     code = resolve_code(name)
-    return db.query(Subject).filter(Subject.code == code).first()
+    query = db.query(Subject).filter((Subject.code == code) | (Subject.name == name))
+    if scheme:
+        query = query.filter(Subject.scheme == scheme)
+    if sem:
+        sem_num = sem.replace("Sem ", "").strip()
+        query = query.filter(Subject.semester == sem_num)
+    return query.first()
 
 # ── SCHEMAS ────────────────────────────────────────────────────────────────────
 class UserCreate(BaseModel):
@@ -111,7 +120,7 @@ def ask_ai(data: dict, db: Session = Depends(get_db)):
     # Build context from DB notes
     context = ""
     if subname and subname not in ("Select Subject", ""):
-        sub = get_subject(db, subname)
+        sub = get_subject(db, subname, data.get("scheme"), data.get("sem"))
         if sub:
             # Fetch general notes AND user-specific notes if token passed
             token = data.get("token")
@@ -169,60 +178,116 @@ def ask_ai(data: dict, db: Session = Depends(get_db)):
 # ✅ GENERATE QUESTIONS — PYQ from DB
 @app.post("/generate")
 def generate_q(data: dict, db: Session = Depends(get_db)):
-    sub = get_subject(db, data.get("subject", ""))
+    sub = get_subject(db, data.get("subject", ""), data.get("scheme"), data.get("sem"))
     if not sub:
         return {"questions": []}
-    qs = db.query(Question).filter_by(subject_id=sub.id, q_type="pyq").all()
-    return {"questions": [q.text for q in qs]}
+    
+    subject_query = data.get("subject", "").replace(" ", "+")
+    search_link = f"https://www.google.com/search?q=VTU+{subject_query}+previous+year+question+papers+all+schemes+PDF"
+    vtu_boss_link = f"https://vtuboss.com/vtu-question-papers/"
+    vtu_resource_link = f"https://www.vturesource.com/vtu-question-papers/"
+    vtu_connect_link = f"https://vtuconnect.in/vtu-question-papers"
+
+    msg = (f"Access the Previous Year Question Papers for **{sub.name}**\n\n"
+           f"Here are the direct links to download official VTU question papers (applicable for all 3 Schemes & 8 Semesters):\n\n"
+           f"🔗 VTU Boss Question Papers: {vtu_boss_link}\n"
+           f"🔗 VTU Resource Question Papers: {vtu_resource_link}\n"
+           f"🔗 VTU Connect Question Papers: {vtu_connect_link}\n\n"
+           f"🔍 Search for specific Question Papers directly: {search_link}")
+
+    return {"message": msg, "questions": []}
 
 
 # ✅ IMPORTANT QUESTIONS
 @app.post("/important-questions")
 def important_q(data: dict, db: Session = Depends(get_db)):
-    sub = get_subject(db, data.get("subject", ""))
+    sub = get_subject(db, data.get("subject", ""), data.get("scheme"), data.get("sem"))
     if not sub:
         return {"questions": []}
+    
     qs = db.query(Question).filter_by(subject_id=sub.id, q_type="important").all()
-    return {"questions": [q.text for q in qs]}
+    
+    # Check if we have at least 5 per module (25 total)
+    if len(qs) < 25:
+        from ai_engine import generate_vtu_questions
+        ai_qs = generate_vtu_questions(sub.name, sub.scheme, sub.semester, "important")
+        if ai_qs:
+            for q_data in ai_qs:
+                # Basic duplicate check
+                text = q_data.get("text")
+                module = q_data.get("module", 1)
+                existing = db.query(Question).filter_by(subject_id=sub.id, text=text, q_type="important").first()
+                if not existing:
+                    db.add(Question(subject_id=sub.id, text=text, q_type="important", unit=module))
+            db.commit()
+            qs = db.query(Question).filter_by(subject_id=sub.id, q_type="important").all()
+
+    return {"questions": list(dict.fromkeys(q.text for q in qs))}
 
 
 # ✅ EXPECTED QUESTIONS
 @app.post("/expected-questions")
 def expected_q(data: dict, db: Session = Depends(get_db)):
-    sub = get_subject(db, data.get("subject", ""))
+    sub = get_subject(db, data.get("subject", ""), data.get("scheme"), data.get("sem"))
     if not sub:
         return {"questions": []}
+    
     qs = db.query(Question).filter_by(subject_id=sub.id, q_type="expected").all()
-    return {"questions": [q.text for q in qs]}
+    
+    if len(qs) < 25:
+        from ai_engine import generate_vtu_questions
+        ai_qs = generate_vtu_questions(sub.name, sub.scheme, sub.semester, "expected")
+        if ai_qs:
+            for q_data in ai_qs:
+                text = q_data.get("text")
+                module = q_data.get("module", 1)
+                existing = db.query(Question).filter_by(subject_id=sub.id, text=text, q_type="expected").first()
+                if not existing:
+                    db.add(Question(subject_id=sub.id, text=text, q_type="expected", unit=module))
+            db.commit()
+            qs = db.query(Question).filter_by(subject_id=sub.id, q_type="expected").all()
+
+    return {"questions": list(dict.fromkeys(q.text for q in qs))}
 
 
 # ✅ GET CONTENT / NOTES
 @app.post("/get-content")
 def get_content(data: dict, db: Session = Depends(get_db)):
-    sub = get_subject(db, data.get("subject", ""))
+    sub = get_subject(db, data.get("subject", ""), data.get("scheme"), data.get("sem"))
     if not sub:
         return {"notes": "No data found for this subject.", "important": [], "questions": []}
 
-    notes  = db.query(Note).filter_by(subject_id=sub.id, module=0).first()
     imp_qs = db.query(Question).filter_by(subject_id=sub.id, q_type="important").all()
     pyq    = db.query(Question).filter_by(subject_id=sub.id, q_type="pyq").all()
 
+    subject_query = data.get("subject", "").replace(" ", "+")
+    search_link = f"https://www.google.com/search?q=VTU+{subject_query}+notes+all+5+modules+all+schemes+PDF"
+    vtu_boss_link = f"https://vtuboss.com/vtu-notes/"
+    vtu_resource_link = f"https://www.vturesource.com/vtu-notes/"
+
+    msg = (f"Access the complete notes (All 5 Modules) for {sub.name}\n\n"
+           f"Here are the direct links to download full notes (applicable for all 3 Schemes & 8 Semesters):\n\n"
+           f"🔗 VTU Boss Notes Portal: {vtu_boss_link}\n"
+           f"🔗 VTU Resource Portal: {vtu_resource_link}\n\n"
+           f"🔍 Search for specific PDFs directly: {search_link}")
+
     return {
-        "notes":     notes.content if notes else "No notes available.",
-        "important": [q.text for q in imp_qs],
-        "questions": [q.text for q in pyq],
+        "notes":     msg,
+        "important": list(dict.fromkeys(q.text for q in imp_qs)),
+        "questions": list(dict.fromkeys(q.text for q in pyq)),
     }
 
 
 # ✅ MOCK EXAM
 @app.post("/exam/start")
 def start_exam(data: dict, db: Session = Depends(get_db)):
-    sub = get_subject(db, data.get("subject", ""))
+    sub = get_subject(db, data.get("subject", ""), data.get("scheme"), data.get("sem"))
     if not sub:
         return {"questions": []}
     qs = db.query(Question).filter_by(subject_id=sub.id, q_type="pyq").all()
-    selected = random.sample(qs, min(5, len(qs)))
-    return {"questions": [q.text for q in selected]}
+    unique_qs = list(dict.fromkeys(q.text for q in qs))
+    selected = random.sample(unique_qs, min(5, len(unique_qs)))
+    return {"questions": selected}
 
 
 @app.post("/exam/submit")
@@ -240,9 +305,6 @@ async def upload_file(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user)
 ):
-    if not user:
-        return {"message": "Authentication required to upload.", "error": "Unauthorized"}
-
     os.makedirs("uploads", exist_ok=True)
     path = f"uploads/{file.filename}"
     with open(path, "wb") as buffer:
@@ -254,11 +316,13 @@ async def upload_file(
             text = "".join(page.extract_text() or "" for page in reader.pages)
             sub = get_subject(db, subject)
             if sub and text:
+                uploader_name = user.username if user else "Guest"
+                uploader_id = user.id if user else None
                 db.add(Note(
                     subject_id=sub.id, 
-                    user_id=user.id, 
+                    user_id=uploader_id, 
                     module=99, 
-                    content=f"[USER ({user.username}) UPLOADED PDF CONTENT: {file.filename}]\n{text}"
+                    content=f"[{uploader_name} UPLOADED PDF CONTENT: {file.filename}]\n{text}"
                 ))
                 db.commit()
                 return {"message": "PDF uploaded & indexed for RAG."}
@@ -268,6 +332,7 @@ async def upload_file(
     return {"message": "Uploaded successfully. Not indexed."}
 
 
+
 # ✅ APTITUDE PREP
 @app.post("/aptitude")
 def aptitude_prep(data: dict, db: Session = Depends(get_db)):
@@ -275,11 +340,42 @@ def aptitude_prep(data: dict, db: Session = Depends(get_db)):
     # Try fetching from DB first
     qs = db.query(AptitudeQuestion).filter(AptitudeQuestion.company.ilike(f"%{company}%")).all()
     
-    if not qs:
-        # Fallback to AI generation if none in DB
+    if len(qs) < 30:
+        # Fallback to AI generation if fewer than 30 in DB
         from ai_engine import generate_aptitude_questions
-        ai_res = generate_aptitude_questions(company)
-        return {"questions": [], "ai_suggestion": ai_res}
+        try:
+            ai_res = generate_aptitude_questions(company)
+            if isinstance(ai_res, list) and len(ai_res) > 0:
+                # Successfully generated questions; save to DB for persistence
+                new_qs = []
+                for item in ai_res:
+                    # Duplicate check based on question text
+                    existing = db.query(AptitudeQuestion).filter_by(question=item["question"]).first()
+                    if not existing:
+                        opts = item.get("options", ["", "", "", ""])
+                        # Standardize options to exactly 4
+                        while len(opts) < 4: opts.append("")
+                        q = AptitudeQuestion(
+                            company=company,
+                            category=item.get("category", "General"),
+                            question=item["question"],
+                            option_a=opts[0],
+                            option_b=opts[1],
+                            option_c=opts[2],
+                            option_d=opts[3],
+                            answer=item.get("answer", "A"),
+                            explanation=item.get("explanation", "")
+                        )
+                        db.add(q)
+                        new_qs.append(q)
+                db.commit()
+                # Refund updated list from DB
+                qs = db.query(AptitudeQuestion).filter(AptitudeQuestion.company.ilike(f"%{company}%")).all()
+        except Exception as ai_err:
+            error_str = str(ai_err)
+            if "RateLimitError" in error_str or "429" in error_str:
+                return {"questions": [], "ai_suggestion": "⚠️ AI Rate limit reached. The database will use previously saved questions if available. Please try again in a few minutes."}
+            return {"questions": [], "ai_suggestion": f"Failed to generate questions. Error: {error_str}. Please check your API key or connection."}
     
     return {
         "questions": [
@@ -304,6 +400,40 @@ def mock_interview(data: dict):
     from ai_engine import generate_mock_interview_questions
     ai_res = generate_mock_interview_questions(company, role)
     return {"questions": ai_res}
+
+
+@app.post("/interview/next")
+def interview_next(data: dict):
+    history = data.get("history", [])
+    company = data.get("company", "General")
+    role    = data.get("role", "Software Engineer")
+    
+    from ai_engine import generate_interview_response
+    res = generate_interview_response(history, company, role)
+    return {"answer": res}
+
+
+@app.post("/interview/voice")
+async def interview_voice(file: UploadFile = File(...)):
+    import tempfile
+    
+    # Create a persistent temp dir inside backend/scratch to be safe but manageable
+    # or just use system temp. Let's use system temp to avoid uvicorn monitoring.
+    suffix = os.path.splitext(file.filename)[1]
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        shutil.copyfileobj(file.file, tmp)
+        temp_path = tmp.name
+    
+    try:
+        from voice_ai import speech_to_text
+        text = speech_to_text(temp_path)
+        return {"text": text}
+    finally:
+        if os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except:
+                pass
 
 
 # ✅ PDF DOWNLOAD HELPER
@@ -360,6 +490,38 @@ def download_questions(subject: str, type: str = "pyq", db: Session = Depends(ge
     return Response(content=pdf_output, media_type="application/pdf", headers={
         "Content-Disposition": f"attachment; filename={sub.code}_{type}.pdf"
     })
+# ✅ ACADEMIC INFO
+import requests
+from bs4 import BeautifulSoup
+def resilient_scrape(url):
+    default = {"url": url, "title": "Access Official VTU Portal"}
+    try:
+        h = {'User-Agent': 'Mozilla/5.0'}
+        r = requests.get(url, headers=h, timeout=4)
+        if r.status_code == 200:
+            soup = BeautifulSoup(r.text, 'html.parser')
+            for a in soup.find_all('a', href=True):
+                text = a.get_text(strip=True)
+                href = a['href']
+                # VTU links usually have substantial text, and we want pdfs or specific updates
+                if len(text) > 15 and ('pdf' in href.lower() or 'circular' in href.lower() or 'notification' in href.lower() or 'time-table' in href.lower() or 'revised' in href.lower()):
+                    # Avoid generic side navigation texts
+                    if "download" not in text.lower() and "read more" not in text.lower():
+                        return {"url": href, "title": text[:60] + "..." if len(text) > 60 else text}
+    except Exception as e:
+        print("Scrape error:", e)
+    return default
+
+@app.get("/academic-info")
+def get_academic_info():
+    cal = resilient_scrape("https://vtu.ac.in/en/academic-calendar/")
+    tt = resilient_scrape("https://vtu.ac.in/en/category/examination/time-table/")
+    circ = resilient_scrape("https://vtu.ac.in/en/circulars/")
+    return {
+        "calendar": cal,
+        "timetable": tt,
+        "circulars": circ
+    }
 
 
 # ── Run directly ───────────────────────────────────────────────────────────────

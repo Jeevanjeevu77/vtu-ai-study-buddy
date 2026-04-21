@@ -4,7 +4,9 @@ database.py — SQLAlchemy setup for VTU Genius AI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "sqlite:///./vtu.db"
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'vtu.db')}"
 
 engine = create_engine(
     DATABASE_URL,

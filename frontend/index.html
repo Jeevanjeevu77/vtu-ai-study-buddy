@@ -118,6 +118,7 @@
       padding: 24px 16px;
       z-index: 100;
       gap: 8px;
+      overflow-y: auto;
     }
 
     .logo {
@@ -867,6 +868,230 @@
     .auth-toggle:hover {
       color: #93c5fd;
     }
+
+    /* ─── INTERVIEW STYLES ──────────────────────────────── */
+    .mic-btn {
+      width: 42px;
+      height: 42px;
+      background: rgba(59, 130, 246, 0.15); /* Tinted blue */
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      border-radius: 12px;
+      color: var(--blue);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+    }
+
+    .mic-btn:hover {
+      background: rgba(59, 130, 246, 0.25);
+      transform: scale(1.05);
+    }
+
+    .mic-btn.recording {
+      background: rgba(248, 113, 113, 0.2);
+      border-color: var(--red);
+      color: var(--red);
+      animation: pulse-red 1.5s infinite;
+    }
+
+    @keyframes pulse-red {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(248, 113, 113, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(248, 113, 113, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(248, 113, 113, 0); }
+    }
+
+    .interview-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--blue);
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      font-size: 12px;
+      color: var(--blue);
+      backdrop-filter: blur(4px);
+    }
+
+    .interview-overlay.active {
+      display: flex;
+    }
+
+    .stop-btn {
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ─── CALCULATOR STYLES ────────────────────────────── */
+    .calc-modal-container {
+      width: 500px;
+      max-width: 95vw;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--surface2);
+      color: var(--blue);
+    }
+
+    .calc-tab-content {
+      display: none;
+    }
+
+    .calc-tab-content.active {
+      display: block;
+    }
+
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 80px 100px 40px;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .calc-input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .calc-input:focus {
+      border-color: var(--blue);
+    }
+
+    .calc-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .remove-row {
+      color: var(--red);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: grid;
+      place-items: center;
+    }
+
+    .add-row-btn {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--blue);
+      border: 1px dashed var(--blue);
+      padding: 8px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+
+    .add-row-btn:hover {
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    .calc-result-box {
+      margin-top: 24px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .calc-result-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+
+    .calc-result-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── UPDATE MODAL STYLES ──────────────────────────── */
+    .update-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .update-card:hover {
+      background: var(--surface2);
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .update-icon {
+      width: 45px;
+      height: 45px;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: var(--blue);
+    }
+    .update-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .update-info p {
+      font-size: 12px;
+      color: var(--muted);
+    }
   </style>
 </head>
 
@@ -916,6 +1141,17 @@
 
     <button class="nav-btn" id="btn-exam" onclick="handleAction('exam')" title="Start a mock exam">
       <span class="icon">📝</span> Mock Exam
+    </button>
+
+    <div class="sidebar-label" style="margin-top:8px">Academic Analytics</div>
+    <button class="nav-btn" onclick="window.open('https://results.vtu.ac.in/', '_blank')" title="Check official VTU Results">
+      <span class="icon">📊</span> Check Results
+    </button>
+    <button class="nav-btn" id="btn-updates" onclick="openUpdateModal()" title="View VTU Academic Calendar & Timetable">
+      <span class="icon">📅</span> Timetable & Academic Calendar
+    </button>
+    <button class="nav-btn" id="btn-calculator" onclick="openCalcModal()" title="Calculate SGPA/CGPA">
+      <span class="icon">🧮</span> Grade Calculator
     </button>
 
     <div class="sidebar-label" style="margin-top:8px">My Files</div>
@@ -982,6 +1218,10 @@
             <h2>AI Tutor</h2>
             <p>Ask anything about your VTU subjects</p>
           </div>
+          <div id="interview-status" class="interview-overlay">
+            <span>🎙️ Live Interview Active</span>
+            <button class="stop-btn" onclick="stopInterview()">Stop</button>
+          </div>
         </div>
 
         <div id="chat" role="log" aria-live="polite">
@@ -995,6 +1235,7 @@
         </div>
 
         <div class="chat-input-area">
+          <button class="mic-btn" id="mic-btn" onclick="toggleRecording()" title="Voice Answer">🎤</button>
           <textarea id="q" rows="1" placeholder="Ask a question about your subject…" onkeydown="handleKey(event)"
             aria-label="Type your question"></textarea>
           <button class="send-btn" id="send-btn" onclick="ask()" title="Send" aria-label="Send message">➤</button>
@@ -1035,7 +1276,11 @@
   <div id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const BASE = "http://127.0.0.1:8000";
+    // Auto-detect BASE URL: Use local if on localhost, else use relative /api
+    const BASE = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost" 
+      ? "http://127.0.0.1:8000" 
+      : ""; 
+
 
     /* ── Toast ─────────────────────────────────────────── */
     function showToast(msg, duration = 2500) {
@@ -1044,6 +1289,75 @@
       t.classList.add("show");
       clearTimeout(t._timer);
       t._timer = setTimeout(() => t.classList.remove("show"), duration);
+    }
+
+    /* ─── Interview State ─────────────────────────────── */
+    let interviewActive = false;
+    let interviewHistory = [];
+    let interviewMeta = { company: "", role: "" };
+    let mediaRecorder = null;
+    let audioChunks = [];
+
+    function speak(text) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      const voices = window.speechSynthesis.getVoices();
+      const preferred = voices.find(v => v.name.includes("Google") || v.name.includes("Natural"));
+      if (preferred) utterance.voice = preferred;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    async function toggleRecording() {
+      const btn = document.getElementById("mic-btn");
+      if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+          mediaRecorder.onstop = async () => {
+            const blob = new Blob(audioChunks, { type: 'audio/wav' });
+            await uploadVoice(blob);
+          };
+          mediaRecorder.start();
+          btn.classList.add("recording");
+          showToast("🎙️ Recording... Speak now");
+        } catch (err) {
+          showToast("❌ Mic access denied");
+        }
+      } else {
+        mediaRecorder.stop();
+        btn.classList.remove("recording");
+        showToast("⏳ Transcribing...");
+      }
+    }
+
+    async function uploadVoice(blob) {
+      const formData = new FormData();
+      formData.append("file", blob, "voice.wav");
+      try {
+        const res = await fetch(`${BASE}/interview/voice`, {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        if (data.text) {
+          document.getElementById("q").value = data.text;
+          ask();
+        }
+      } catch {
+        showToast("⚠️ Voice service error");
+      }
+    }
+
+    function stopInterview() {
+      interviewActive = false;
+      document.getElementById("interview-status").classList.remove("active");
+      addMsg("⏹️ Mock Interview ended.", "bot");
+      window.speechSynthesis.cancel();
     }
 
     /* ── Load Subjects ──────────────────────────────────── */
@@ -1097,7 +1411,13 @@
 
       const bubble = document.createElement("div");
       bubble.className = "msg-bubble";
-      bubble.textContent = text;
+      
+      // Escape HTML and convert URLs to clickable links
+      const escapedText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      bubble.innerHTML = escapedText.replace(urlRegex, function(url) {
+        return '<a href="' + url + '" target="_blank" style="color: #93c5fd; text-decoration: underline;">' + url + '</a>';
+      });
 
       wrap.appendChild(avatar);
       wrap.appendChild(bubble);
@@ -1186,10 +1506,13 @@
     /* ── Handle Sidebar Actions ──────────────────────────── */
     async function handleAction(action) {
       const subject = document.getElementById("subject").value;
-      if (!subject || subject === "Select Subject" || subject === "") {
+      const isPlacement = ["aptitude", "mock"].includes(action);
+
+      if (!isPlacement && (!subject || subject === "Select Subject" || subject === "")) {
         showToast("❌ Please select a subject first");
         return;
       }
+      
       setActive(action);
 
       if (action === "questions") await generateQ();
@@ -1218,6 +1541,9 @@
     }
 
     /* ── Aptitude Prep ───────────────────────────────────── */
+    window.aptitudeData = null;
+    window.aptitudeIndex = 0;
+
     async function aptitudePrep() {
       const company = prompt("Enter company name (e.g. TCS, Infosys, Wipro, Accenture):", "TCS");
       if (!company) return;
@@ -1234,11 +1560,10 @@
         removeTyping();
 
         if (data.questions && data.questions.length) {
-          addMsg(`🎯 Accurate Aptitude Practice for ${company}:`, "bot");
-          data.questions.forEach((q, i) => {
-            const text = `Q${i+1} [${q.category}]\n${q.question}\nA) ${q.options[0]}\nB) ${q.options[1]}\nC) ${q.options[2]}\nD) ${q.options[3]}`;
-            addMsg(text, "bot");
-          });
+          addMsg(`🎯 Accurate Aptitude Practice for ${company}. Let's begin!`, "bot");
+          window.aptitudeData = data.questions;
+          window.aptitudeIndex = 0;
+          renderAptitudeQuestion();
           addNoteCard(company, "questions", "Aptitude questions fetched.");
         } else if (data.ai_suggestion) {
           addMsg(`🤖 Pattern Analysis for ${company} complete. Here are recommended questions:`, "bot");
@@ -1251,6 +1576,58 @@
       }
     }
 
+    function renderAptitudeQuestion() {
+        if (!window.aptitudeData || window.aptitudeIndex >= window.aptitudeData.length) {
+            addMsg("🎉 You have completed all aptitude questions for this company!", "bot");
+            return;
+        }
+        const q = window.aptitudeData[window.aptitudeIndex];
+        const bubble = addMsg(`Q${window.aptitudeIndex + 1} [${q.category}]\n${q.question}`, "bot");
+        
+        // Add options as buttons
+        const optionsDiv = document.createElement("div");
+        optionsDiv.style.display = "flex";
+        optionsDiv.style.flexDirection = "column";
+        optionsDiv.style.gap = "6px";
+        optionsDiv.style.marginTop = "10px";
+        optionsDiv.style.width = "100%";
+        
+        const labels = ["A", "B", "C", "D"];
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "qa-btn";
+            btn.style.justifyContent = "flex-start";
+            btn.style.textAlign = "left";
+            btn.innerHTML = `<strong>${labels[idx]})</strong> ${opt}`;
+            btn.onclick = () => submitAptitudeAnswer(labels[idx], btn, optionsDiv, q);
+            optionsDiv.appendChild(btn);
+        });
+        bubble.appendChild(optionsDiv);
+    }
+
+    function submitAptitudeAnswer(chosen, btnObj, optionsDiv, q) {
+        // Disable all buttons
+        Array.from(optionsDiv.children).forEach(b => {
+             b.onclick = null;
+             b.style.opacity = "0.7";
+             b.style.cursor = "default";
+        });
+        
+        const isCorrect = chosen === q.answer;
+        if (isCorrect) {
+             btnObj.style.background = "rgba(34, 197, 94, 0.15)";
+             btnObj.style.borderColor = "var(--green)";
+             addMsg(`✅ Correct! You chose ${chosen}.\n\n💡 Explanation: ${q.explanation}`, "bot");
+        } else {
+             btnObj.style.background = "rgba(248, 113, 113, 0.15)";
+             btnObj.style.borderColor = "var(--red)";
+             addMsg(`❌ Incorrect. You chose ${chosen}, but the correct answer is ${q.answer}.\n\n💡 Explanation: ${q.explanation}`, "bot");
+        }
+        
+        window.aptitudeIndex++;
+        setTimeout(renderAptitudeQuestion, 2000);
+    }
+
     /* ── Mock Interview ──────────────────────────────────── */
     async function mockInterview() {
       const company = prompt("Enter target company (e.g. TCS, Google, Microsoft):", "TCS");
@@ -1258,26 +1635,32 @@
       const role = prompt("Enter job role (e.g. Software Engineer, Data Analyst):", "Software Engineer");
       if (!role) return;
 
-      addMsg(`🎤 Starting Mock Interview Prep for ${role} at ${company}...`, "user");
+      interviewActive = true;
+      interviewHistory = [];
+      interviewMeta = { company, role };
+      document.getElementById("interview-status").classList.add("active");
+
+      addMsg(`🎤 Starting Interactive Mock Interview for ${role} at ${company}...`, "user");
       showTyping();
 
       try {
-        const res = await fetch(`${BASE}/mock-interview`, {
+        const res = await fetch(`${BASE}/interview/next`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ company, role })
+          body: JSON.stringify({ company, role, history: [] })
         });
         const data = await res.json();
         removeTyping();
 
-        if (data.questions) {
-          addMsg(`🤖 Here are some interview questions tailored for ${company} (${role}):`, "bot");
-          addMsg(data.questions, "bot");
-          addNoteCard(`${company} Interview`, "important", data.questions);
+        if (data.answer) {
+          addMsg(data.answer, "bot");
+          interviewHistory.push({ role: "assistant", content: data.answer });
+          speak(data.answer);
         }
       } catch {
         removeTyping();
         showToast("⚠️ Failed to start mock interview.");
+        stopInterview();
       }
     }
 
@@ -1288,17 +1671,44 @@
       const subject = document.getElementById("subject").value;
       const sem = document.getElementById("sem").value;
 
-      if (!q) return;
+      const scheme = document.getElementById("scheme").value;
 
+      if (!q) return;
       textarea.value = "";
       addMsg(q, "user");
-      showTyping();
 
+      if (interviewActive) {
+        interviewHistory.push({ role: "user", content: q });
+        showTyping();
+        try {
+          const res = await fetch(`${BASE}/interview/next`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...interviewMeta, history: interviewHistory })
+          });
+          const data = await res.json();
+          removeTyping();
+          if (data.answer) {
+            addMsg(data.answer, "bot");
+            interviewHistory.push({ role: "assistant", content: data.answer });
+            speak(data.answer);
+            if (data.answer.toLowerCase().includes("interview summary") || data.answer.toLowerCase().includes("performance summary")) {
+              setTimeout(stopInterview, 5000);
+            }
+          }
+        } catch {
+          removeTyping();
+          showToast("⚠️ Interview server error");
+        }
+        return;
+      }
+
+      showTyping();
       try {
         const res = await fetch(BASE + "/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: q, subject, sem, token: localStorage.getItem("vtu_token") || undefined })
+          body: JSON.stringify({ question: q, subject, scheme, sem, token: localStorage.getItem("vtu_token") || undefined })
         });
         const data = await res.json();
         removeTyping();
@@ -1312,36 +1722,46 @@
     /* ── Past Questions ──────────────────────────────────── */
     async function generateQ() {
       const subject = document.getElementById("subject").value;
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/generate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject })
+          body: JSON.stringify({ subject, scheme, sem })
         });
         const data = await res.json();
         removeTyping();
 
-        if (!data.questions || !data.questions.length) {
+        if (!data.message && (!data.questions || !data.questions.length)) {
           addMsg("❌ No questions found for this subject.", "bot");
           return;
         }
 
-        const text = "📄 Previous Year Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        let text = "";
+        if (data.message) {
+            text = "📄 Previous Year Question Papers:\n\n" + data.message;
+        } else {
+            text = "📄 Previous Year Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        }
+        
         addMsg(text, "bot");
-        addNoteCard(subject, "questions", data.questions);
+        addNoteCard(subject, "questions", data.message ? [data.message] : data.questions);
       } catch { removeTyping(); addMsg("⚠️ Server error fetching questions.", "bot"); }
     }
 
     /* ── Get Content / Notes ─────────────────────────────── */
     async function getContent() {
       const subject = document.getElementById("subject").value;
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/get-content`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject })
+          body: JSON.stringify({ subject, scheme, sem })
         });
         const data = await res.json();
         removeTyping();
@@ -1354,12 +1774,14 @@
     /* ── Important Questions ──────────────────────────────── */
     async function importantQ() {
       const subject = document.getElementById("subject").value;
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/important-questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject })
+          body: JSON.stringify({ subject, scheme, sem })
         });
         const data = await res.json();
         removeTyping();
@@ -1402,12 +1824,14 @@
     /* ── Mock Exam ────────────────────────────────────────── */
     async function startExam() {
       const subject = document.getElementById("subject").value;
+      const scheme = document.getElementById("scheme").value;
+      const sem = document.getElementById("sem").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/exam/start`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject })
+          body: JSON.stringify({ subject, scheme, sem })
         });
         const data = await res.json();
         removeTyping();
@@ -1533,19 +1957,239 @@
     }
   </script>
 
-  <!-- HTML Auth Modal -->
-  <div id="auth-modal" class="modal-overlay" onclick="if(event.target===this) closeAuthModal()">
-    <div class="modal-container">
-      <div class="modal-header">Welcome to VTU Genius</div>
-      <input type="hidden" id="auth-mode" value="login">
-      <input type="text" id="auth-username" class="auth-input" placeholder="Username">
-      <input type="password" id="auth-password" class="auth-input" placeholder="Password">
-      <button id="auth-submit-btn" class="auth-btn" onclick="submitAuth()">Login</button>
-      <div id="auth-toggle-text" class="auth-toggle" onclick="toggleAuthMode()">
-        Need an account? <span style="color:#93c5fd">Register</span>
+  <!-- Calculator Modal -->
+  <div id="calc-modal" class="modal-overlay" onclick="if(event.target===this) closeCalcModal()">
+    <div class="modal-container calc-modal-container">
+      <div class="modal-header">VTU Grade Calculator</div>
+      
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('sgpa')">SGPA</button>
+        <button class="tab-btn" onclick="switchTab('cgpa')">CGPA</button>
       </div>
+
+      <!-- SGPA Tab -->
+      <div id="sgpa-tab" class="calc-tab-content active">
+        <div id="sgpa-rows">
+          <div class="calc-row">
+            <div><span class="calc-label">Subject (Optional)</span><input type="text" class="calc-input" placeholder="Sub 1" style="width:100%"></div>
+            <div><span class="calc-label">Credits</span><input type="number" class="calc-input sgpa-credits" value="4" min="1" max="5" style="width:100%"></div>
+            <div><span class="calc-label">Grade</span>
+              <select class="calc-input sgpa-grade" style="width:100%; padding: 7px 8px;">
+                <option value="10">O / S+</option>
+                <option value="9">S</option>
+                <option value="8">A</option>
+                <option value="7">B</option>
+                <option value="6">C</option>
+                <option value="5">D</option>
+                <option value="4">E</option>
+                <option value="0">F / Ab</option>
+              </select>
+            </div>
+            <div><span class="calc-label">&nbsp;</span><button class="remove-row" onclick="this.parentElement.parentElement.remove(); calculateSGPA()">×</button></div>
+          </div>
+        </div>
+        <button class="add-row-btn" onclick="addSGPARow()">+ Add Subject</button>
+        
+        <div class="calc-result-box">
+          <div class="calc-result-val" id="sgpa-result">0.00</div>
+          <div class="calc-result-label">Calculated SGPA</div>
+          <div id="sgpa-percent" style="font-size: 13px; color: var(--text); margin-top: 4px;">Percentage: 0%</div>
+        </div>
+      </div>
+
+      <!-- CGPA Tab -->
+      <div id="cgpa-tab" class="calc-tab-content">
+        <div id="cgpa-rows">
+          <div class="calc-row">
+            <div><span class="calc-label">Semester</span><input type="text" class="calc-input" placeholder="Sem 1" style="width:100%"></div>
+            <div><span class="calc-label">Total Credits</span><input type="number" class="calc-input cgpa-credits" value="20" min="1" style="width:100%"></div>
+            <div><span class="calc-label">SGPA</span><input type="number" step="0.01" class="calc-input cgpa-sgpa" placeholder="0.00" style="width:100%"></div>
+            <div><span class="calc-label">&nbsp;</span><button class="remove-row" onclick="this.parentElement.parentElement.remove(); calculateCGPA()">×</button></div>
+          </div>
+        </div>
+        <button class="add-row-btn" onclick="addCGPARow()">+ Add Semester</button>
+
+        <div class="calc-result-box">
+          <div class="calc-result-val" id="cgpa-result">0.00</div>
+          <div class="calc-result-label">Calculated CGPA</div>
+          <div id="cgpa-percent" style="font-size: 13px; color: var(--text); margin-top: 4px;">Overall Percentage: 0%</div>
+        </div>
+      </div>
+
+      <p style="font-size: 10px; color: var(--muted); margin-top: 20px; text-align: center;">
+        Note: Calculation follows VTU 2022 Scheme (Percentage = CGPA * 10).
+      </p>
+    </div>
+  <!-- Updates Modal -->
+  <div id="update-modal" class="modal-overlay" onclick="if(event.target===this) closeUpdateModal()">
+    <div class="modal-container">
+      <div class="modal-header">University Updates</div>
+      
+      <div class="update-card" id="calendar-link">
+        <div class="update-icon">📅</div>
+        <div class="update-info">
+          <h4>Academic Calendar</h4>
+          <p>Official VTU academic schedules for all semesters</p>
+        </div>
+      </div>
+
+      <div class="update-card" id="timetable-link">
+        <div class="update-icon">🗓️</div>
+        <div class="update-info">
+          <h4>Examination Timetable</h4>
+          <p>Latest exam dates and schedules for UG/PG</p>
+        </div>
+      </div>
+
+      <div class="update-card" id="circulars-link">
+        <div class="update-icon">📢</div>
+        <div class="update-info">
+          <h4>Latest Circulars</h4>
+          <p>Recent notifications from VTU university</p>
+        </div>
+      </div>
+
+      <p style="font-size: 11px; color: var(--muted); margin-top: 15px; text-align: center;">
+        Note: Clicking these will open the official VTU website.
+      </p>
     </div>
   </div>
+
+  <script>
+    /* ── Calculator Functions ─────────────────────────── */
+    function openUpdateModal() { 
+      document.getElementById('update-modal').classList.add('show');
+      loadAcademicInfo();
+    }
+    function closeUpdateModal() { document.getElementById('update-modal').classList.remove('show'); }
+
+    async function loadAcademicInfo() {
+      try {
+        // Show loading state
+        document.querySelector('#calendar-link p').textContent = "Loading live data...";
+        document.querySelector('#timetable-link p').textContent = "Loading live data...";
+        document.querySelector('#circulars-link p').textContent = "Loading live data...";
+
+        const res = await fetch(`${BASE}/academic-info`);
+        const data = await res.json();
+        
+        // Update Calendar
+        document.querySelector('#calendar-link p').textContent = data.calendar.title.substring(0, 50) + "...";
+        document.getElementById('calendar-link').onclick = () => window.open(data.calendar.url, '_blank');
+        
+        // Update Timetable
+        document.querySelector('#timetable-link p').textContent = data.timetable.title.substring(0, 50) + "...";
+        document.getElementById('timetable-link').onclick = () => window.open(data.timetable.url, '_blank');
+        
+        // Update Circulars
+        document.querySelector('#circulars-link p').textContent = data.circulars.title.substring(0, 50) + "...";
+        document.getElementById('circulars-link').onclick = () => window.open(data.circulars.url, '_blank');
+      } catch (err) {
+        showToast("⚠️ API restricted or server down, showing defaults");
+        document.getElementById('calendar-link').onclick = () => window.open("https://vtu.ac.in/en/academic-calendar/", '_blank');
+        document.getElementById('timetable-link').onclick = () => window.open("https://vtu.ac.in/en/category/examination/time-table/", '_blank');
+        document.getElementById('circulars-link').onclick = () => window.open("https://vtu.ac.in/en/circulars/", '_blank');
+      }
+    }
+
+    function openCalcModal() { document.getElementById('calc-modal').classList.add('show'); }
+    function closeCalcModal() { document.getElementById('calc-modal').classList.remove('show'); }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.calc-tab-content').forEach(c => c.classList.remove('active'));
+      
+      const btn = document.querySelector(`.tab-btn[onclick*="${tab}"]`);
+      if(btn) btn.classList.add('active');
+      document.getElementById(`${tab}-tab`).classList.add('active');
+    }
+
+    function addSGPARow() {
+      const rows = document.getElementById('sgpa-rows');
+      const div = document.createElement('div');
+      div.className = 'calc-row';
+      div.innerHTML = `
+        <div><input type="text" class="calc-input" placeholder="Subject" style="width:100%"></div>
+        <div><input type="number" class="calc-input sgpa-credits" value="4" min="1" style="width:100%"></div>
+        <div>
+          <select class="calc-input sgpa-grade" style="width:100%; padding: 7px 8px;">
+            <option value="10">O / S+</option>
+            <option value="9">S</option>
+            <option value="8">A</option>
+            <option value="7">B</option>
+            <option value="6">C</option>
+            <option value="5">D</option>
+            <option value="4">E</option>
+            <option value="0">F / Ab</option>
+          </select>
+        </div>
+        <div><button class="remove-row" onclick="this.parentElement.parentElement.remove(); calculateSGPA()">×</button></div>
+      `;
+      rows.appendChild(div);
+      
+      // Add listeners to new row
+      div.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', calculateSGPA);
+      });
+    }
+
+    function addCGPARow() {
+      const rows = document.getElementById('cgpa-rows');
+      const div = document.createElement('div');
+      div.className = 'calc-row';
+      div.innerHTML = `
+        <div><input type="text" class="calc-input" placeholder="Semester" style="width:100%"></div>
+        <div><input type="number" class="calc-input cgpa-credits" value="20" min="1" style="width:100%"></div>
+        <div><input type="number" step="0.01" class="calc-input cgpa-sgpa" placeholder="0.00" style="width:100%"></div>
+        <div><button class="remove-row" onclick="this.parentElement.parentElement.remove(); calculateCGPA()">×</button></div>
+      `;
+      rows.appendChild(div);
+      
+      div.querySelectorAll('input').forEach(el => {
+        el.addEventListener('input', calculateCGPA);
+      });
+    }
+
+    function calculateSGPA() {
+      const rows = document.querySelectorAll('#sgpa-rows .calc-row');
+      let totalCredits = 0;
+      let totalPoints = 0;
+
+      rows.forEach(row => {
+        const credit = parseFloat(row.querySelector('.sgpa-credits').value) || 0;
+        const grade = parseFloat(row.querySelector('.sgpa-grade').value) || 0;
+        totalCredits += credit;
+        totalPoints += (credit * grade);
+      });
+
+      const sgpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
+      document.getElementById('sgpa-result').textContent = sgpa.toFixed(2);
+      document.getElementById('sgpa-percent').textContent = `Percentage: ${(sgpa * 10).toFixed(2)}%`;
+    }
+
+    function calculateCGPA() {
+      const rows = document.querySelectorAll('#cgpa-rows .calc-row');
+      let totalCredits = 0;
+      let totalWeightedSGPA = 0;
+
+      rows.forEach(row => {
+        const credit = parseFloat(row.querySelector('.cgpa-credits').value) || 0;
+        const sgpa = parseFloat(row.querySelector('.cgpa-sgpa').value) || 0;
+        totalCredits += credit;
+        totalWeightedSGPA += (credit * sgpa);
+      });
+
+      const cgpa = totalCredits > 0 ? (totalWeightedSGPA / totalCredits) : 0;
+      document.getElementById('cgpa-result').textContent = cgpa.toFixed(2);
+      document.getElementById('cgpa-percent').textContent = `Overall Percentage: ${(cgpa * 10).toFixed(2)}%`;
+    }
+
+    // Initialize listeners for initial rows
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#sgpa-rows .calc-input').forEach(el => el.addEventListener('input', calculateSGPA));
+      document.querySelectorAll('#cgpa-rows .calc-input').forEach(el => el.addEventListener('input', calculateCGPA));
+    });
+  </script>
 </body>
 
 </html>

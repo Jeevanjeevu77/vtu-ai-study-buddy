@@ -18,3 +18,5 @@ Thumbs.db
 # Temporary files
 Backend/temp_*.pdf
 Backend/main.py.txt
+
+.vercel

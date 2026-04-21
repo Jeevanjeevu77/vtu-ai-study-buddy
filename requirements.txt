@@ -9,3 +9,6 @@ python-multipart
 python-dotenv
 httpx
 python-telegram-bot
+requests
+beautifulsoup4
+fpdf

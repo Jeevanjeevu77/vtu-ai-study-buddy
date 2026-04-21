@@ -231,7 +231,7 @@ def seed_all():
         ).first()
 
         if existing:
-            sub = existing
+            continue
         else:
             sub = Subject(
                 name=item["name"],

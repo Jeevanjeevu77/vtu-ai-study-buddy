@@ -11,3 +11,5 @@ faster-whisper
 httpx
 python-jose[cryptography]
 fpdf2
+beautifulsoup4
+requests
