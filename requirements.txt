@@ -13,3 +13,5 @@ requests
 beautifulsoup4
 fpdf
 reportlab
+youtube-transcript-api
+bcrypt<4.0.0
