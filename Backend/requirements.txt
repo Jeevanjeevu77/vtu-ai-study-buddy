@@ -13,3 +13,4 @@ python-jose[cryptography]
 fpdf2
 beautifulsoup4
 requests
+youtube-transcript-api

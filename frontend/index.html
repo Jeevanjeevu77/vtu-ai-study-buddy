@@ -1092,6 +1092,214 @@
       font-size: 12px;
       color: var(--muted);
     }
+
+    /* ─── VTU MODEL QUESTION PAPER MODAL ───────────────── */
+    .paper-modal-container {
+      width: 960px;
+      max-width: 96vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .paper-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .paper-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .paper-actions-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .paper-btn {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .paper-btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+    }
+    .paper-btn-primary:hover {
+      box-shadow: 0 4px 15px var(--blue-glow);
+    }
+
+    .paper-btn-secondary {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .paper-btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .paper-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+      margin-top: 8px;
+    }
+
+    .vtu-exam-sheet {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 8px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      font-family: 'Times New Roman', Times, serif, system-ui;
+    }
+
+    .vtu-univ-header {
+      text-align: center;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
+    }
+    .vtu-univ-header h2 {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+    .vtu-univ-header h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #334155;
+    }
+    .vtu-univ-header p {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .vtu-usn-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .usn-boxes {
+      display: inline-flex;
+      gap: 3px;
+      margin-left: 8px;
+    }
+    .usn-box {
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid #0f172a;
+      display: inline-block;
+      text-align: center;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .vtu-meta-strip {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1.5px solid #0f172a;
+      border-bottom: 1.5px solid #0f172a;
+      padding: 6px 0;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .vtu-instructions {
+      font-size: 11px;
+      font-style: italic;
+      color: #475569;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .vtu-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    .vtu-table th, .vtu-table td {
+      border: 1px solid #475569;
+      padding: 7px 8px;
+      vertical-align: middle;
+    }
+    .vtu-table th {
+      background: #1e293b;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: center;
+      font-size: 11.5px;
+      text-transform: uppercase;
+    }
+    .vtu-table tr.or-row td {
+      background: #f1f5f9;
+      text-align: center;
+      font-weight: 800;
+      color: #dc2626;
+      padding: 5px;
+      font-size: 12px;
+    }
+    .tag-mark {
+      font-weight: 700;
+      color: #0f172a;
+      text-align: center;
+    }
+    .tag-level {
+      font-weight: 600;
+      color: #2563eb;
+      text-align: center;
+    }
+    .tag-co {
+      font-weight: 600;
+      color: #059669;
+      text-align: center;
+    }
+
+    .vtu-solution-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 
@@ -1122,12 +1330,17 @@
 
     <div class="sidebar-label">AI Actions</div>
 
-    <button class="nav-btn" id="btn-questions" onclick="handleAction('questions')"
-      title="Generate previous year questions">
-      <span class="icon">📄</span> Past Questions
+    <button class="nav-btn" id="btn-vtu-paper" onclick="openModelPaperModal()"
+      title="Generate official 100-mark VTU Model Question Paper with Bloom's Taxonomy & COs"
+      style="border: 1px solid rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.1); color: #93c5fd; font-weight: 700;">
+      <span class="icon">📑</span> VTU Model Paper (100M)
     </button>
-    <button class="nav-btn" id="btn-content" onclick="handleAction('content')" title="View subject content and notes">
-      <span class="icon">📘</span> View Notes
+    <button class="nav-btn" id="btn-questions" onclick="handleAction('questions')"
+      title="Download all modules previous year questions (PDF)">
+      <span class="icon">📄</span> Get PYQ (PDF)
+    </button>
+    <button class="nav-btn" id="btn-content" onclick="handleAction('content')" title="Download all modules notes (PDF)">
+      <span class="icon">📘</span> Get Notes (PDF)
     </button>
     <button class="nav-btn" id="btn-important" onclick="handleAction('important')"
       title="See important questions for exam">
@@ -1154,6 +1367,23 @@
       <span class="icon">🧮</span> Grade Calculator
     </button>
 
+    <div class="sidebar-label" style="margin-top:8px; color: #10b981;">✨ New Features</div>
+    <button class="nav-btn" onclick="openCommunityNotes()" title="View peer-to-peer notes">
+      <span class="icon">🌍</span> Community Notes
+    </button>
+    <button class="nav-btn" onclick="openFlashcards()" title="Practice spaced repetition">
+      <span class="icon">🃏</span> AI Flashcards
+    </button>
+    <button class="nav-btn" onclick="openYouTubeSummarizer()" title="Summarize video lectures">
+      <span class="icon">📺</span> YouTube Summarizer
+    </button>
+    <button class="nav-btn" onclick="openCompiler()" title="Run code online">
+      <span class="icon">💻</span> Code Compiler
+    </button>
+    <button class="nav-btn" onclick="openProgress()" title="View your study streaks">
+      <span class="icon">📈</span> My Progress
+    </button>
+
     <div class="sidebar-label" style="margin-top:8px">My Files</div>
     <input type="file" id="pdf-upload" accept="application/pdf" style="display:none;" onchange="uploadPDF(event)">
     <button class="nav-btn" id="btn-upload" onclick="document.getElementById('pdf-upload').click()"
@@ -1177,14 +1407,29 @@
     <header class="topbar" role="banner">
       <div class="topbar-title">💬 AI Study Session</div>
 
-      <label for="scheme" style="font-size:12px; color:var(--muted)">Scheme</label>
-      <select id="scheme" onchange="loadSubjects()" aria-label="Select Scheme">
-        <option value="2018">2018</option>
-        <option value="2021">2021</option>
-        <option value="2022" selected>2022</option>
+      <label for="branch" style="font-size:12px; color:var(--muted)">Dept</label>
+      <select id="branch" onchange="loadSubjects()" aria-label="Select Department" style="min-width: 110px;">
+        <option value="CSE" selected>CSE (Computer Science)</option>
+        <option value="ISE">ISE (Info Science)</option>
+        <option value="AIML">AIML (AI & ML)</option>
+        <option value="AIDS">AIDS (AI & Data Science)</option>
+        <option value="ECE">ECE (Electronics)</option>
+        <option value="EEE">EEE (Electrical)</option>
+        <option value="MECH">MECH (Mechanical)</option>
+        <option value="CIVIL">CIVIL (Civil)</option>
       </select>
 
-      <label for="sem" style="font-size:12px; color:var(--muted)">Semester</label>
+      <label for="scheme" style="font-size:12px; color:var(--muted)">Scheme</label>
+      <select id="scheme" onchange="loadSubjects()" aria-label="Select Scheme">
+        <option value="2025">2025 (Autonomous)</option>
+        <option value="2024">2024 (NEP)</option>
+        <option value="2023">2023</option>
+        <option value="2022" selected>2022</option>
+        <option value="2021">2021</option>
+        <option value="2018">2018</option>
+      </select>
+
+      <label for="sem" style="font-size:12px; color:var(--muted)">Sem</label>
       <select id="sem" onchange="loadSubjects()" aria-label="Select Semester">
         <option value="1">Sem 1</option>
         <option value="2">Sem 2</option>
@@ -1197,7 +1442,7 @@
       </select>
 
       <label for="subject" style="font-size:12px; color:var(--muted)">Subject</label>
-      <select id="subject" aria-label="Select Subject">
+      <select id="subject" aria-label="Select Subject" style="max-width: 200px;">
         <option>Select Subject</option>
       </select>
 
@@ -1248,8 +1493,8 @@
           <h2>📚 Notes Library</h2>
           <p>Fetched content appears here</p>
           <div id="download-actions" style="margin-top: 8px; display: none; gap: 8px;">
-            <button class="qa-btn" style="padding: 4px 8px; font-size: 11px;" onclick="downloadPDF('notes')">📥 Notes PDF</button>
-            <button class="qa-btn" style="padding: 4px 8px; font-size: 11px;" onclick="downloadPDF('questions')">📥 PYQ PDF</button>
+            <button class="qa-btn" style="padding: 6px 10px; font-size: 11px; background: var(--blue-glow); border-color: var(--blue);" onclick="downloadPDF('notes')">📥 Download All Notes (PDF)</button>
+            <button class="qa-btn" style="padding: 6px 10px; font-size: 11px; background: var(--blue-glow); border-color: var(--blue);" onclick="downloadPDF('questions')">📥 Download All PYQ (PDF)</button>
           </div>
         </div>
 
@@ -1262,6 +1507,7 @@
         </div>
 
         <div class="quick-actions">
+          <button class="qa-btn" onclick="openModelPaperModal()" style="border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.18); color: #93c5fd; font-weight: 700;">📑 100M Paper</button>
           <button class="qa-btn" onclick="handleAction('questions')" id="qa-questions">📄 PYQ</button>
           <button class="qa-btn" onclick="handleAction('content')" id="qa-content">📘 Notes</button>
           <button class="qa-btn" onclick="handleAction('important')" id="qa-important">⭐ Important</button>
@@ -1276,10 +1522,10 @@
   <div id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // Auto-detect BASE URL: Use local if on localhost, else use relative /api
-    const BASE = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost" 
+    // Auto-detect BASE URL: Use local backend if file:// or localhost, else use /api on Vercel
+    const BASE = (window.location.protocol === "file:" || window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") 
       ? "http://127.0.0.1:8000" 
-      : ""; 
+      : "/api"; 
 
 
     /* ── Toast ─────────────────────────────────────────── */
@@ -1362,6 +1608,7 @@
 
     /* ── Load Subjects ──────────────────────────────────── */
     async function loadSubjects() {
+      const branch = document.getElementById("branch") ? document.getElementById("branch").value : "CSE";
       const scheme = document.getElementById("scheme").value;
       const sem = document.getElementById("sem").value;
 
@@ -1369,7 +1616,7 @@
       dropdown.innerHTML = "<option>Loading…</option>";
 
       try {
-        const res = await fetch(`${BASE}/subjects?scheme=${scheme}&sem=${sem}`);
+        const res = await fetch(`${BASE}/subjects?scheme=${scheme}&sem=${sem}&branch=${branch}`);
         const data = await res.json();
 
         dropdown.innerHTML = "";
@@ -1380,10 +1627,12 @@
         }
 
         dropdown.innerHTML = "<option value=''>Select Subject</option>";
-        data.subjects.forEach(sub => {
+        data.subjects.forEach((sub, i) => {
           const opt = document.createElement("option");
           opt.value = sub;
-          opt.textContent = sub;
+          const code = data.details && data.details[i] ? data.details[i].code : "";
+          opt.setAttribute("data-code", code);
+          opt.textContent = code ? `[${code}] ${sub}` : sub;
           dropdown.appendChild(opt);
         });
       } catch {
@@ -1391,6 +1640,7 @@
         showToast("⚠️ Backend not reachable. Start uvicorn first.");
       }
     }
+
 
     /* ── Chat Utilities ─────────────────────────────────── */
     function removeWelcome() {
@@ -1412,12 +1662,21 @@
       const bubble = document.createElement("div");
       bubble.className = "msg-bubble";
       
-      // Escape HTML and convert URLs to clickable links
-      const escapedText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      bubble.innerHTML = escapedText.replace(urlRegex, function(url) {
+      // Escape HTML, convert **bold** to <strong>, [text](url) to <a> and bare URLs to clickable links
+      let contentHtml = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      
+      contentHtml = contentHtml.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      
+      // Handle [text](url)
+      contentHtml = contentHtml.replace(/\[(.*?)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="color: #22d3ee; text-decoration: underline;">$1</a>');
+      
+      // Handle bare URLs (only if not already inside an <a> tag)
+      const urlRegex = /(?<!href="|">)(https?:\/\/[^\s<]+)/g;
+      contentHtml = contentHtml.replace(urlRegex, function(url) {
         return '<a href="' + url + '" target="_blank" style="color: #93c5fd; text-decoration: underline;">' + url + '</a>';
       });
+
+      bubble.innerHTML = contentHtml;
 
       wrap.appendChild(avatar);
       wrap.appendChild(bubble);
@@ -1427,6 +1686,7 @@
     }
 
     function showTyping() {
+      removeTyping();
       removeWelcome();
       const chat = document.getElementById("chat");
       const wrap = document.createElement("div");
@@ -1438,8 +1698,7 @@
     }
 
     function removeTyping() {
-      const t = document.getElementById("typing");
-      if (t) t.remove();
+      document.querySelectorAll(".typing-indicator, #typing").forEach(el => el.remove());
     }
 
     function clearChat() {
@@ -1656,10 +1915,14 @@
           addMsg(data.answer, "bot");
           interviewHistory.push({ role: "assistant", content: data.answer });
           speak(data.answer);
+        } else if (data.error || data.detail) {
+          addMsg(`⚠️ ${data.error || data.detail || 'Could not initiate interview.'}`, "bot");
+          stopInterview();
         }
-      } catch {
+      } catch (err) {
         removeTyping();
         showToast("⚠️ Failed to start mock interview.");
+        addMsg("⚠️ Failed to start mock interview. Please check your backend connection and API keys.", "bot");
         stopInterview();
       }
     }
@@ -1695,10 +1958,13 @@
             if (data.answer.toLowerCase().includes("interview summary") || data.answer.toLowerCase().includes("performance summary")) {
               setTimeout(stopInterview, 5000);
             }
+          } else if (data.error || data.detail) {
+            addMsg(`⚠️ ${data.error || data.detail}`, "bot");
           }
         } catch {
           removeTyping();
           showToast("⚠️ Interview server error");
+          addMsg("⚠️ Interview service encountered an error.", "bot");
         }
         return;
       }
@@ -1724,30 +1990,45 @@
       const subject = document.getElementById("subject").value;
       const scheme = document.getElementById("scheme").value;
       const sem = document.getElementById("sem").value;
+      const branch = document.getElementById("branch").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/generate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject, scheme, sem })
+          body: JSON.stringify({ subject, scheme, sem, branch })
         });
         const data = await res.json();
         removeTyping();
 
-        if (!data.message && (!data.questions || !data.questions.length)) {
-          addMsg("❌ No questions found for this subject.", "bot");
+        if (!data.modules || Object.keys(data.modules).length === 0) {
+          addMsg("❌ No PYQ questions found. AI is generating accurate VTU questions, please wait...", "bot");
           return;
         }
 
-        let text = "";
-        if (data.message) {
-            text = "📄 Previous Year Question Papers:\n\n" + data.message;
-        } else {
-            text = "📄 Previous Year Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
+        const total = data.total || 0;
+        addMsg(`📄 **Previous Year Questions for ${subject}**\n\n📊 Total: ${total} questions across 5 modules\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, "bot");
+
+        for (let mod = 1; mod <= 5; mod++) {
+          const modKey = String(mod);
+          const questions = data.modules[modKey] || data.modules[mod] || [];
+          if (questions.length === 0) continue;
+          let text = `\n📖 **MODULE ${mod}** (${questions.length} questions)\n────────────────────\n`;
+          questions.forEach((q, i) => { text += `${i + 1}. ${q}\n`; });
+          addMsg(text, "bot");
         }
-        
-        addMsg(text, "bot");
-        addNoteCard(subject, "questions", data.message ? [data.message] : data.questions);
+
+        if (data.download_url) {
+          const dlBubble = addMsg(`📥 **Download complete question bank as PDF**`, "bot");
+          const btn = document.createElement("button");
+          btn.className = "send-btn";
+          btn.style.cssText = "margin-top:10px;width:100%;height:auto;padding:12px;border-radius:12px;";
+          btn.innerHTML = `<span style="font-size:18px;margin-right:8px;">📥</span> Download ${subject} PYQ Bank (PDF)`;
+          btn.onclick = () => { window.open(`${BASE}${data.download_url}`, '_blank'); showToast("📥 PDF Download Started"); };
+          dlBubble.appendChild(btn);
+        }
+
+        addNoteCard(subject, "questions", `${total} PYQ questions across 5 modules`);
       } catch { removeTyping(); addMsg("⚠️ Server error fetching questions.", "bot"); }
     }
 
@@ -1756,18 +2037,58 @@
       const subject = document.getElementById("subject").value;
       const scheme = document.getElementById("scheme").value;
       const sem = document.getElementById("sem").value;
+      const branch = document.getElementById("branch").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/get-content`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject, scheme, sem })
+          body: JSON.stringify({ subject, scheme, sem, branch })
         });
         const data = await res.json();
         removeTyping();
-        const notes = data.notes || "No notes available.";
-        addMsg("📘 Notes for " + subject + ":\n\n" + notes, "bot");
-        addNoteCard(subject, "notes", notes);
+
+        if (!data.modules || Object.keys(data.modules).length === 0) {
+          addMsg("❌ No notes found. AI is generating comprehensive VTU notes, please try again in a moment.", "bot");
+          return;
+        }
+
+        addMsg(`📘 **VTU Study Notes for ${subject}**\n\n📚 Complete module-wise notes (All 5 Modules)\n══════════════════════════════`, "bot");
+
+        for (let mod = 1; mod <= 5; mod++) {
+          const content = data.modules[String(mod)];
+          if (!content) continue;
+
+          const preview = content.length > 800 ? content.substring(0, 800) + "..." : content;
+          const bubble = addMsg(`📖 **MODULE ${mod}**\n────────────────────\n${preview}`, "bot");
+
+          if (content.length > 800) {
+            const expandBtn = document.createElement("button");
+            expandBtn.className = "qa-btn";
+            expandBtn.style.cssText = "margin-top:8px;width:100%;justify-content:center;padding:8px;";
+            expandBtn.innerHTML = `📖 Read Full Module ${mod} Notes`;
+            expandBtn.onclick = () => {
+              let fullHtml = `📖 **MODULE ${mod}**\n────────────────────\n${content}`;
+              fullHtml = fullHtml.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+              fullHtml = fullHtml.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+              bubble.innerHTML = fullHtml;
+              expandBtn.remove();
+            };
+            bubble.appendChild(expandBtn);
+          }
+          
+          addNoteCard(subject, "notes", `Module ${mod}: ${content.substring(0, 100)}...`);
+        }
+
+        if (data.download_url) {
+          const dlBubble = addMsg(`📥 **Download all notes as a single PDF**`, "bot");
+          const btn = document.createElement("button");
+          btn.className = "send-btn";
+          btn.style.cssText = "margin-top:10px;width:100%;height:auto;padding:12px;border-radius:12px;";
+          btn.innerHTML = `<span style="font-size:18px;margin-right:8px;">📥</span> Download ${subject} Complete Notes (PDF)`;
+          btn.onclick = () => { window.open(`${BASE}${data.download_url}`, '_blank'); showToast("📥 PDF Download Started"); };
+          dlBubble.appendChild(btn);
+        }
       } catch { removeTyping(); addMsg("⚠️ Server error fetching content.", "bot"); }
     }
 
@@ -1776,21 +2097,40 @@
       const subject = document.getElementById("subject").value;
       const scheme = document.getElementById("scheme").value;
       const sem = document.getElementById("sem").value;
+      const branch = document.getElementById("branch").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/important-questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject, scheme, sem })
+          body: JSON.stringify({ subject, scheme, sem, branch })
         });
+
         const data = await res.json();
         removeTyping();
 
-        const qs = data.questions;
-        if (!qs || !qs.length) { addMsg("⭐ No important questions found.", "bot"); return; }
+        const modules = data.modules;
+        const qs = data.questions || [];
+        if (!qs.length && (!modules || Object.keys(modules).length === 0)) {
+          addMsg("⭐ No important questions found. AI is generating, please wait...", "bot");
+          return;
+        }
 
-        const text = "⭐ Important Questions:\n\n" + qs.map((q, i) => `${i + 1}. ${q}`).join("\n");
-        addMsg(text, "bot");
+        addMsg(`⭐ **Important Questions for ${subject}**\n\n📊 Total: ${qs.length} must-prepare questions\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, "bot");
+
+        if (modules && Object.keys(modules).length > 0) {
+          for (let mod = 1; mod <= 5; mod++) {
+            const modKey = String(mod);
+            const questions = modules[modKey] || modules[mod] || [];
+            if (questions.length === 0) continue;
+            let text = `\n📖 **MODULE ${mod}** (${questions.length} questions)\n────────────────────\n`;
+            questions.forEach((q, i) => { text += `${i + 1}. ${q}\n`; });
+            addMsg(text, "bot");
+          }
+        } else {
+          const text = qs.map((q, i) => `${i + 1}. ${q}`).join("\n");
+          addMsg(text, "bot");
+        }
         addNoteCard(subject, "important", qs);
       } catch { removeTyping(); addMsg("⚠️ Server error.", "bot"); }
     }
@@ -1800,24 +2140,40 @@
       const subject = document.getElementById("subject").value;
       const scheme = document.getElementById("scheme").value;
       const sem = document.getElementById("sem").value;
+      const branch = document.getElementById("branch").value;
       showTyping();
       try {
         const res = await fetch(`${BASE}/expected-questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subject, scheme, sem })
+          body: JSON.stringify({ subject, scheme, sem, branch })
         });
         const data = await res.json();
         removeTyping();
 
-        if (!data.questions || !data.questions.length) {
-          addMsg("🔮 No expected questions found.", "bot");
+        const modules = data.modules;
+        const qs = data.questions || [];
+        if (!qs.length && (!modules || Object.keys(modules).length === 0)) {
+          addMsg("🔮 No expected questions found. AI is generating, please wait...", "bot");
           return;
         }
 
-        const text = "🔮 Expected Questions:\n\n" + data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
-        addMsg(text, "bot");
-        addNoteCard(subject, "expected", data.questions);
+        addMsg(`🔮 **Expected Questions for ${subject}**\n\n📊 Total: ${qs.length} predicted questions\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, "bot");
+
+        if (modules && Object.keys(modules).length > 0) {
+          for (let mod = 1; mod <= 5; mod++) {
+            const modKey = String(mod);
+            const questions = modules[modKey] || modules[mod] || [];
+            if (questions.length === 0) continue;
+            let text = `\n📖 **MODULE ${mod}** (${questions.length} questions)\n────────────────────\n`;
+            questions.forEach((q, i) => { text += `${i + 1}. ${q}\n`; });
+            addMsg(text, "bot");
+          }
+        } else {
+          const text = qs.map((q, i) => `${i + 1}. ${q}`).join("\n");
+          addMsg(text, "bot");
+        }
+        addNoteCard(subject, "expected", qs);
       } catch { removeTyping(); addMsg("⚠️ Server error.", "bot"); }
     }
 
@@ -1899,17 +2255,36 @@
     };
 
     /* ── Auth Functions ───────────────────────────────────── */
+    function checkAuthOnLoad() {
+      const token = localStorage.getItem("vtu_token");
+      const uname = localStorage.getItem("vtu_username");
+      const btn = document.getElementById("btn-auth-trigger");
+      const authModal = document.getElementById('auth-modal');
+      
+      if (!token) {
+        authModal.classList.add('show');
+        if (btn) btn.innerHTML = '<span class="icon">👤</span> Sign In';
+      } else {
+        authModal.classList.remove('show');
+        if (btn) btn.innerHTML = '<span class="icon">👤</span> ' + (uname || 'User') + ' (Logout)';
+      }
+    }
+
+    // Run auth check on load
+    document.addEventListener("DOMContentLoaded", checkAuthOnLoad);
+
     function openAuthModal() {
       if (localStorage.getItem("vtu_token")) {
+        // Logout action
         localStorage.removeItem("vtu_token");
-        const btn = document.getElementById("btn-auth-trigger");
-        if (btn) btn.innerHTML = '<span class="icon">👤</span> Sign In';
+        localStorage.removeItem("vtu_username");
         showToast("Logged out successfully");
+        checkAuthOnLoad();
         return;
       }
       document.getElementById('auth-modal').classList.add('show');
     }
-    function closeAuthModal() { document.getElementById('auth-modal').classList.remove('show'); }
+    
     function toggleAuthMode() {
       const mode = document.getElementById('auth-mode');
       const btn = document.getElementById('auth-submit-btn');
@@ -1923,12 +2298,16 @@
         document.getElementById('auth-toggle-text').innerHTML = 'Need an account? <span style="color:#93c5fd">Register</span>';
       }
     }
+    
     async function submitAuth() {
       const uname = document.getElementById('auth-username').value.trim();
       const pass = document.getElementById('auth-password').value.trim();
       if (!uname || !pass) return showToast("Enter credentials");
 
       const mode = document.getElementById('auth-mode').value;
+      const btn = document.getElementById('auth-submit-btn');
+      btn.textContent = "Processing...";
+      
       try {
         if (mode === 'register') {
           const res = await fetch(`${BASE}/register`, {
@@ -1936,7 +2315,10 @@
             body: JSON.stringify({ username: uname, password: pass })
           });
           const data = await res.json();
-          if (data.error) return showToast("❌ " + data.error);
+          if (data.error) {
+            btn.textContent = "Register";
+            return showToast("❌ " + data.error);
+          }
           showToast("✅ Registered! Logging in...");
           toggleAuthMode();
           await submitAuth();
@@ -1946,16 +2328,55 @@
             body: JSON.stringify({ username: uname, password: pass })
           });
           const data = await res.json();
-          if (data.error) return showToast("❌ " + data.error);
+          if (data.error) {
+            btn.textContent = "Login";
+            return showToast("❌ " + data.error);
+          }
+          
           localStorage.setItem("vtu_token", data.access_token);
-          const btn = document.getElementById("btn-auth-trigger");
-          if (btn) btn.innerHTML = '<span class="icon">👤</span> Logout';
-          closeAuthModal();
-          showToast("✅ Logged in as " + data.username);
+          localStorage.setItem("vtu_username", data.username);
+          showToast("✅ Logged in successfully");
+          checkAuthOnLoad();
+          
+          // Clear inputs
+          document.getElementById('auth-username').value = "";
+          document.getElementById('auth-password').value = "";
         }
-      } catch (err) { showToast("⚠️ Server offline"); }
+      } catch (err) { 
+        btn.textContent = mode === 'register' ? "Register" : "Login";
+        showToast("⚠️ Server offline"); 
+      }
     }
   </script>
+
+  <!-- Auth Gate -->
+  <div id="auth-modal" class="modal-overlay" style="background: var(--bg-dark); z-index: 10000;">
+    <div class="modal-container" style="max-width: 400px; text-align: center; border: 1px solid var(--border);">
+      <div class="modal-header" style="justify-content: center;">
+        <span style="font-size: 24px; margin-right: 10px;">🎓</span> VTU Study Buddy
+      </div>
+      
+      <div style="padding: 20px;">
+        <input type="hidden" id="auth-mode" value="login">
+        
+        <div style="margin-bottom: 15px; text-align: left;">
+          <label style="color: var(--muted); font-size: 14px; margin-bottom: 5px; display: block;">Username</label>
+          <input type="text" id="auth-username" placeholder="Enter your USN or Username" class="chat-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 25px; text-align: left;">
+          <label style="color: var(--muted); font-size: 14px; margin-bottom: 5px; display: block;">Password</label>
+          <input type="password" id="auth-password" placeholder="••••••••" class="chat-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+        </div>
+        
+        <button id="auth-submit-btn" onclick="submitAuth()" class="qa-btn" style="width: 100%; padding: 12px; border-radius: 8px; justify-content: center; font-size: 16px; margin-bottom: 15px;">Login</button>
+        
+        <div id="auth-toggle-text" style="color: var(--muted); font-size: 14px; cursor: pointer;" onclick="toggleAuthMode()">
+          Need an account? <span style="color: #93c5fd; font-weight: bold;">Register</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Calculator Modal -->
   <div id="calc-modal" class="modal-overlay" onclick="if(event.target===this) closeCalcModal()">
@@ -2020,6 +2441,8 @@
         Note: Calculation follows VTU 2022 Scheme (Percentage = CGPA * 10).
       </p>
     </div>
+  </div>
+
   <!-- Updates Modal -->
   <div id="update-modal" class="modal-overlay" onclick="if(event.target===this) closeUpdateModal()">
     <div class="modal-container">
@@ -2183,12 +2606,551 @@
       document.getElementById('cgpa-result').textContent = cgpa.toFixed(2);
       document.getElementById('cgpa-percent').textContent = `Overall Percentage: ${(cgpa * 10).toFixed(2)}%`;
     }
+  </script>
+
+  <!-- VTU Model Question Paper Modal -->
+  <div id="paper-modal" class="modal-overlay" onclick="if(event.target===this) closeModelPaperModal()">
+    <div class="modal-container paper-modal-container">
+      <div class="paper-modal-header">
+        <div class="paper-modal-title">
+          <span>📑</span>
+          <span>Official VTU Model Question Paper (100 Marks)</span>
+        </div>
+        <div class="paper-actions-bar">
+          <button class="paper-btn paper-btn-primary" id="btn-dl-paper-pdf" onclick="downloadCurrentPaperPDF()">
+            <span>📥</span> Download VTU PDF
+          </button>
+          <button class="paper-btn paper-btn-secondary" id="btn-sol-key" onclick="toggleSolutionKey()">
+            <span>💡</span> Solution Key
+          </button>
+          <button class="paper-btn paper-btn-secondary" onclick="generateModelPaper(true)">
+            <span>🔄</span> Regenerate
+          </button>
+          <button class="paper-btn paper-btn-secondary" onclick="closeModelPaperModal()">
+            <span>✖</span> Close
+          </button>
+        </div>
+      </div>
+
+      <div class="paper-scroll-area">
+        <div id="paper-loading" style="display:none; text-align:center; padding: 40px;">
+          <div style="font-size: 36px; animation: spin 1s linear infinite; display: inline-block;">⏳</div>
+          <h3 style="margin-top: 15px; color: var(--blue);">Setting Official VTU 100-Mark Question Paper...</h3>
+          <p style="color: var(--muted); font-size: 13px; margin-top: 6px;">Synthesizing 5 modules with Bloom's taxonomy (L1-L4) & Course Outcomes (CO1-CO5)</p>
+        </div>
+
+        <div id="paper-content" class="vtu-exam-sheet" style="display:none;">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div id="paper-solution" class="vtu-solution-box" style="display:none;">
+          <!-- Solution key -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Model Paper Functions ────────────────────────── */
+    window.currentModelPaper = null;
+
+    async function openModelPaperModal() {
+      const modal = document.getElementById('paper-modal');
+      if (modal) {
+        modal.classList.add('show');
+      }
+
+      const subjectSelect = document.getElementById("subject");
+      // If subjects haven't loaded yet or are empty, try loading now
+      if (!subjectSelect || subjectSelect.options.length <= 1) {
+        try {
+          await loadSubjects();
+        } catch (e) {
+          console.error("loadSubjects failed:", e);
+        }
+      }
+
+      // Auto-select first real subject option if none selected yet
+      if (subjectSelect) {
+        let subject = subjectSelect.value;
+        if (!subject || subject === "Select Subject" || subject.startsWith("Select") || subject === "Loading…" || subject === "No subjects found") {
+          for (let i = 0; i < subjectSelect.options.length; i++) {
+            const opt = subjectSelect.options[i];
+            if (opt.value && opt.value !== "Select Subject" && !opt.value.startsWith("Select") && opt.value !== "Loading…" && opt.value !== "No subjects found") {
+              subjectSelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+      }
+
+      generateModelPaper(false);
+    }
+
+    function closeModelPaperModal() {
+      const modal = document.getElementById('paper-modal');
+      if (modal) {
+        modal.classList.remove('show');
+      }
+    }
+
+    async function generateModelPaper(force = false) {
+      const branch = (document.getElementById("branch") && document.getElementById("branch").value) ? document.getElementById("branch").value : "CSE";
+      const scheme = (document.getElementById("scheme") && document.getElementById("scheme").value) ? document.getElementById("scheme").value : "2022";
+      const sem = (document.getElementById("sem") && document.getElementById("sem").value) ? document.getElementById("sem").value : "3";
+      
+      const subjectSelect = document.getElementById("subject");
+      let subject = subjectSelect ? subjectSelect.value : "";
+      let code = "";
+
+      if (subjectSelect && subjectSelect.selectedIndex >= 0) {
+        const opt = subjectSelect.options[subjectSelect.selectedIndex];
+        if (opt) {
+          code = opt.getAttribute("data-code") || "";
+          if (!subject || subject === "Select Subject" || subject.startsWith("Select") || subject === "Loading…") {
+            subject = opt.value || "";
+          }
+        }
+      }
+
+      // Fallback to a subject if still empty
+      if (!subject || subject === "Select Subject" || subject.startsWith("Select") || subject === "Loading…" || subject === "No subjects found") {
+        subject = "Computer Networks";
+      }
+
+      const loadingEl = document.getElementById("paper-loading");
+      const contentEl = document.getElementById("paper-content");
+      const solutionEl = document.getElementById("paper-solution");
+
+      if (!force && window.currentModelPaper && window.currentModelPaper.subject === subject && window.currentModelPaper.scheme === scheme && window.currentModelPaper.branch === branch) {
+        if (contentEl) contentEl.style.display = "block";
+        if (loadingEl) loadingEl.style.display = "none";
+        return;
+      }
+
+      if (loadingEl) loadingEl.style.display = "block";
+      if (contentEl) contentEl.style.display = "none";
+      if (solutionEl) solutionEl.style.display = "none";
+
+      try {
+        console.log("Fetching model paper for:", { subject, scheme, sem, branch, code });
+        const res = await fetch(`${BASE}/vtu/model-paper`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject, scheme, sem, branch, code })
+        });
+        const data = await res.json();
+        if (loadingEl) loadingEl.style.display = "none";
+
+        if (data.error) {
+          showToast("⚠️ " + data.error);
+          if (contentEl) {
+            contentEl.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--red);">
+              <div style="font-size: 32px; margin-bottom: 10px;">⚠️</div>
+              <h3 style="color: var(--text);">Could not generate model paper</h3>
+              <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">${data.error}</p>
+              <button class="paper-btn paper-btn-primary" style="margin-top: 15px;" onclick="generateModelPaper(true)">🔄 Try Again</button>
+            </div>`;
+            contentEl.style.display = "block";
+          }
+          return;
+        }
+
+        window.currentModelPaper = data;
+        renderModelPaper(data);
+        if (contentEl) contentEl.style.display = "block";
+      } catch (err) {
+        console.error("Model paper error:", err);
+        if (loadingEl) loadingEl.style.display = "none";
+        if (contentEl) {
+          contentEl.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--red);">
+            <div style="font-size: 32px; margin-bottom: 10px;">⚠️</div>
+            <h3 style="color: var(--text);">Unable to reach backend</h3>
+            <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">Please make sure the backend is running at http://127.0.0.1:8000</p>
+            <button class="paper-btn paper-btn-primary" style="margin-top: 15px;" onclick="generateModelPaper(true)">🔄 Retry</button>
+          </div>`;
+          contentEl.style.display = "block";
+        }
+        showToast("⚠️ Error generating question paper.");
+      }
+    }
+
+    function renderModelPaper(paper) {
+      const contentEl = document.getElementById("paper-content");
+      const usnBoxes = Array(10).fill('<span class="usn-box"></span>').join("");
+
+      let html = `
+        <div class="vtu-usn-bar">
+          <div>USN: <div class="usn-boxes">${usnBoxes}</div></div>
+          <div style="font-size: 15px; letter-spacing: 1px;">${paper.course_code || '22CS34'}</div>
+        </div>
+
+        <div class="vtu-univ-header">
+          <h2>${paper.university || 'VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI'}</h2>
+          <h3>Model Question Paper (${paper.scheme} Scheme) with effect from ${paper.scheme}</h3>
+          <p>${paper.semester}th Semester B.E. / B.Tech. Degree Examination</p>
+          <p style="font-weight: 700; color: #0f172a; margin-top: 3px;">Course Title: ${paper.subject} (${paper.branch || 'CSE'})</p>
+        </div>
+
+        <div class="vtu-meta-strip">
+          <div>TIME: ${paper.time_allowed || '3 Hours'}</div>
+          <div>COURSE CODE: ${paper.course_code || '22CS34'}</div>
+          <div>MAX. MARKS: ${paper.max_marks || 100}</div>
+        </div>
+
+        <div class="vtu-instructions">
+          <b>Note:</b> 1. Answer any <b>FIVE</b> full questions, choosing <b>ONE</b> full question from each module.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. <b>M:</b> Marks, <b>L:</b> Revised Bloom's Taxonomy Level (L1: Remember, L2: Understand, L3: Apply, L4: Analyze), <b>CO:</b> Course Outcome.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Draw neat sketches / circuit diagrams / flowcharts wherever necessary.
+        </div>
+
+        <table class="vtu-table">
+          <thead>
+            <tr>
+              <th style="width: 80px;">Module</th>
+              <th style="width: 65px;">Q.No.</th>
+              <th>Question Description</th>
+              <th style="width: 50px;">M</th>
+              <th style="width: 45px;">L</th>
+              <th style="width: 50px;">CO</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      const modules = paper.modules || [];
+      modules.forEach((m, mIdx) => {
+        const modNum = m.module_num || (mIdx + 1);
+        const coTag = m.co || `CO${modNum}`;
+
+        // Odd question
+        const qOdd = m.question_odd || {};
+        const qOddNum = qOdd.q_num || ((modNum - 1) * 2 + 1);
+        const partsOdd = qOdd.parts || [];
+
+        partsOdd.forEach((p, pIdx) => {
+          html += `
+            <tr>
+              ${pIdx === 0 ? `<td rowspan="${partsOdd.length}" style="text-align:center; font-weight:700; background:#f8fafc;">MODULE ${modNum}</td>` : ''}
+              <td style="text-align:center; font-weight:700;">${pIdx === 0 ? `Q.${qOddNum} (${p.sub_q || 'a'})` : `(${p.sub_q || 'b'})`}</td>
+              <td style="text-align:left; line-height: 1.4;">${p.text || ''}</td>
+              <td class="tag-mark">${p.marks || 6}</td>
+              <td class="tag-level">${p.level || 'L2'}</td>
+              <td class="tag-co">${p.co || coTag}</td>
+            </tr>
+          `;
+        });
+
+        // OR ROW
+        html += `
+          <tr class="or-row">
+            <td colspan="6">— OR —</td>
+          </tr>
+        `;
+
+        // Even question
+        const qEven = m.question_even || {};
+        const qEvenNum = qEven.q_num || ((modNum - 1) * 2 + 2);
+        const partsEven = qEven.parts || [];
+
+        partsEven.forEach((p, pIdx) => {
+          html += `
+            <tr>
+              ${pIdx === 0 ? `<td rowspan="${partsEven.length}" style="text-align:center; font-weight:700; background:#f8fafc;">MODULE ${modNum}</td>` : ''}
+              <td style="text-align:center; font-weight:700;">${pIdx === 0 ? `Q.${qEvenNum} (${p.sub_q || 'a'})` : `(${p.sub_q || 'b'})`}</td>
+              <td style="text-align:left; line-height: 1.4;">${p.text || ''}</td>
+              <td class="tag-mark">${p.marks || 6}</td>
+              <td class="tag-level">${p.level || 'L2'}</td>
+              <td class="tag-co">${p.co || coTag}</td>
+            </tr>
+          `;
+        });
+      });
+
+      html += `
+          </tbody>
+        </table>
+        <div style="text-align:center; font-weight:700; font-size:12px; margin-top: 15px; color:#475569;">
+          *** END OF MODEL QUESTION PAPER ***
+        </div>
+      `;
+
+      contentEl.innerHTML = html;
+    }
+
+    function downloadCurrentPaperPDF() {
+      const branch = (document.getElementById("branch") && document.getElementById("branch").value) ? document.getElementById("branch").value : "CSE";
+      const scheme = (document.getElementById("scheme") && document.getElementById("scheme").value) ? document.getElementById("scheme").value : "2022";
+      const sem = (document.getElementById("sem") && document.getElementById("sem").value) ? document.getElementById("sem").value : "3";
+      const subjectSelect = document.getElementById("subject");
+      let subject = subjectSelect ? subjectSelect.value : "";
+      let code = "";
+      if (subjectSelect && subjectSelect.selectedIndex >= 0) {
+        const opt = subjectSelect.options[subjectSelect.selectedIndex];
+        if (opt) code = opt.getAttribute("data-code") || "";
+      }
+      if ((!subject || subject === "Select Subject") && window.currentModelPaper) {
+        subject = window.currentModelPaper.subject;
+        code = window.currentModelPaper.course_code;
+      }
+
+      if (!subject || subject === "Select Subject") {
+        showToast("⚠️ Select a valid subject first.");
+        return;
+      }
+
+      showToast("📥 Generating Official VTU PDF...");
+      const url = `${BASE}/download/model-paper-pdf?subject=${encodeURIComponent(subject)}&scheme=${scheme}&sem=${sem}&branch=${branch}&code=${encodeURIComponent(code || '')}`;
+      window.open(url, "_blank");
+    }
+
+    async function toggleSolutionKey() {
+      const solEl = document.getElementById("paper-solution");
+      if (solEl.style.display === "block") {
+        solEl.style.display = "none";
+        return;
+      }
+
+      if (!window.currentModelPaper) {
+        showToast("⚠️ Please generate a model question paper first.");
+        return;
+      }
+
+      solEl.style.display = "block";
+      solEl.innerHTML = "<div style='text-align:center; padding:15px;'>⏳ AI is formulating detailed Marking Scheme and Solution Key pointers...</div>";
+
+      const subject = window.currentModelPaper.subject;
+      const scheme = window.currentModelPaper.scheme;
+      const sem = window.currentModelPaper.semester;
+
+      try {
+        const res = await fetch(`${BASE}/ask`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question: `Provide an official VTU Examination Scheme of Evaluation and Model Answer Pointers for '${subject}' (${scheme} Scheme, Sem ${sem}) for the 5-module model paper. Include step-by-step marking guidelines (e.g. 2 marks for diagram, 4 marks for derivation/explanation).`,
+            subject: subject,
+            scheme: scheme,
+            sem: sem
+          })
+        });
+        const data = await res.json();
+        let formatted = data.answer.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        formatted = formatted.replace(/\n/g, "<br>");
+        solEl.innerHTML = `
+          <h3 style="color: var(--blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>💡</span> Official VTU Scheme of Evaluation & Solution Pointers
+          </h3>
+          <div style="line-height: 1.6;">${formatted}</div>
+        `;
+      } catch {
+        solEl.innerHTML = "<p style='color: var(--red);'>⚠️ Failed to retrieve solution key.</p>";
+      }
+    }
 
     // Initialize listeners for initial rows
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('#sgpa-rows .calc-input').forEach(el => el.addEventListener('input', calculateSGPA));
       document.querySelectorAll('#cgpa-rows .calc-input').forEach(el => el.addEventListener('input', calculateCGPA));
     });
+
+    /* ─── NEW FEATURES ─── */
+    function openCommunityNotes() {
+        let html = `
+        <div id="community-modal" class="modal-overlay show" onclick="if(event.target===this) this.remove()">
+          <div class="modal-container" style="width:600px; max-width:90%; display:flex; flex-direction:column; max-height:80vh;">
+            <h2 style="margin-bottom:15px; color:var(--text); font-size:18px;">🌍 Community Notes</h2>
+            <div id="community-content" style="flex:1; overflow-y:auto; font-size:14px; color:var(--muted);">
+              Loading...
+            </div>
+            <button onclick="document.getElementById('community-modal').remove()" style="margin-top:15px; padding:10px; background:var(--blue); color:white; border:none; border-radius:8px; cursor:pointer;">Close</button>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
+        
+        fetch(`${BASE}/community-notes`)
+          .then(r => r.json())
+          .then(data => {
+              let c = document.getElementById('community-content');
+              if(!data.notes || data.notes.length === 0) {
+                  c.innerHTML = "No community notes published yet. Be the first to share!";
+                  return;
+              }
+              c.innerHTML = data.notes.map(n => `
+                <div style="background:var(--surface); padding:12px; border:1px solid var(--border); border-radius:8px; margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <strong style="color:var(--text);">${n.subject} (Module ${n.module})</strong>
+                        <span style="font-size:11px; background:var(--blue-glow); padding:2px 6px; border-radius:12px;">by ${n.author}</span>
+                    </div>
+                    <div>${n.content}</div>
+                </div>
+              `).join('');
+          }).catch(e => {
+              document.getElementById('community-content').innerHTML = "Failed to load notes.";
+          });
+    }
+
+    function openYouTubeSummarizer() {
+        let html = `
+        <div id="yt-modal" class="modal-overlay show" onclick="if(event.target===this) this.remove()">
+          <div class="modal-container" style="width:500px; max-width:90%;">
+            <h2 style="margin-bottom:15px; color:var(--text); font-size:18px;">📺 YouTube Video Summarizer</h2>
+            <input type="text" id="yt-url" placeholder="Paste YouTube link here..." style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); margin-bottom:15px;">
+            <button onclick="summarizeYT()" style="width:100%; padding:10px; background:var(--violet); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Summarize Video</button>
+            <div id="yt-result" style="margin-top:15px; font-size:13px; color:var(--text); white-space:pre-wrap; max-height:200px; overflow-y:auto; background:var(--surface2); padding:10px; border-radius:8px; display:none;"></div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    async function summarizeYT() {
+        const url = document.getElementById('yt-url').value;
+        const resEl = document.getElementById('yt-result');
+        if(!url) return;
+        resEl.style.display = 'block';
+        resEl.innerHTML = 'Fetching transcript & summarizing... Please wait ⏳';
+        
+        try {
+            let req = await fetch(`${BASE}/youtube-summary`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({url: url})
+            });
+            let data = await req.json();
+            resEl.innerHTML = (data.summary || "").replace(/\\n/g, '<br>');
+        } catch(e) {
+            resEl.innerHTML = 'Error summarizing video.';
+        }
+    }
+
+    function openCompiler() {
+        let html = `
+        <div id="compiler-modal" class="modal-overlay show" onclick="if(event.target===this) this.remove()">
+          <div class="modal-container" style="width:700px; max-width:95%;">
+            <h2 style="margin-bottom:15px; color:var(--text); font-size:18px;">💻 Online Code Compiler</h2>
+            <select id="comp-lang" style="width:100%; padding:10px; margin-bottom:10px; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text);">
+                <option value="python">Python</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+            </select>
+            <textarea id="comp-code" rows="10" style="width:100%; padding:10px; font-family:monospace; background:#0f172a; color:#e2e8f0; border:1px solid var(--border); border-radius:8px; margin-bottom:10px;" placeholder="Write your code here..."></textarea>
+            <button onclick="runCompiler()" style="width:100%; padding:10px; background:var(--green); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Run Code 🚀</button>
+            <div style="margin-top:15px; font-weight:bold; font-size:13px; color:var(--muted);">Output:</div>
+            <pre id="comp-output" style="background:black; color:#10b981; padding:10px; border-radius:8px; min-height:80px; max-height:150px; overflow-y:auto; margin-top:5px; font-size:13px;"></pre>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    async function runCompiler() {
+        const code = document.getElementById('comp-code').value;
+        const lang = document.getElementById('comp-lang').value;
+        const out = document.getElementById('comp-output');
+        out.innerText = 'Compiling...';
+        
+        try {
+            let req = await fetch(`${BASE}/compile`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({code: code, language: lang})
+            });
+            let data = await req.json();
+            out.innerText = data.output || "Program finished with no output.";
+        } catch(e) {
+            out.innerText = "Execution failed.";
+        }
+    }
+
+    function openProgress() {
+        let html = `
+        <div id="prog-modal" class="modal-overlay show" onclick="if(event.target===this) this.remove()">
+          <div class="modal-container" style="width:400px; text-align:center;">
+            <h2 style="margin-bottom:15px; color:var(--text); font-size:18px;">📈 My Progress</h2>
+            <div id="prog-content" style="color:var(--muted); font-size:14px;">Loading...</div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
+        
+        fetch(`${BASE}/progress`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token") || ""}`
+            }
+        })
+          .then(r => r.json())
+          .then(d => {
+              if (d.detail) throw new Error();
+              document.getElementById('prog-content').innerHTML = `
+                <div style="margin-bottom:15px; padding:15px; background:var(--surface); border-radius:12px; border:1px solid var(--border);">
+                    <div style="font-size:32px; font-weight:800; color:var(--blue);">${d.streak || 0} 🔥</div>
+                    <div>Day Study Streak</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1; padding:15px; background:var(--surface); border-radius:12px; border:1px solid var(--border);">
+                        <div style="font-size:24px; font-weight:800; color:var(--violet);">${d.modules_read || 0}</div>
+                        <div>Modules Read</div>
+                    </div>
+                    <div style="flex:1; padding:15px; background:var(--surface); border-radius:12px; border:1px solid var(--border);">
+                        <div style="font-size:24px; font-weight:800; color:var(--green);">${d.mock_score || 0}</div>
+                        <div>Mock Score Avg</div>
+                    </div>
+                </div>
+              `;
+          }).catch(e => {
+              document.getElementById('prog-content').innerHTML = "Please sign in to view your progress.";
+          });
+    }
+
+    function openFlashcards() {
+        const subject = document.getElementById('subject').value;
+        if(subject === "Select Subject" || !subject) {
+            showToast("Please select a subject from the top bar first.");
+            return;
+        }
+        
+        let html = `
+        <div id="flash-modal" class="modal-overlay show" onclick="if(event.target===this) this.remove()">
+          <div class="modal-container" style="width:500px; max-width:90%;">
+            <h2 style="margin-bottom:15px; color:var(--text); font-size:18px;">🃏 Flashcards: ${subject}</h2>
+            <div id="flash-content" style="font-size:14px; color:var(--muted); min-height:150px; display:grid; place-items:center;">
+              Generating flashcards with AI... ⏳
+            </div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
+        
+        fetch(`${BASE}/generate-flashcards`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({subject: subject})
+        })
+          .then(r => r.json())
+          .then(d => {
+              if(!d.flashcards || d.flashcards.length === 0) {
+                  document.getElementById('flash-content').innerHTML = "No flashcards generated.";
+                  return;
+              }
+              
+              let cardsHtml = d.flashcards.map((f, i) => `
+                <div style="margin-bottom:15px; padding:15px; background:var(--surface); border:1px solid var(--border); border-radius:8px; cursor:pointer;" onclick="this.querySelector('.f-ans').style.display='block'">
+                    <strong style="color:var(--text);">Q${i+1}: ${f.q}</strong>
+                    <div class="f-ans" style="display:none; margin-top:10px; color:var(--green); border-top:1px dashed var(--border); padding-top:10px;">
+                        A: ${f.a}
+                    </div>
+                </div>
+              `).join('');
+              
+              document.getElementById('flash-content').innerHTML = `
+                <div style="width:100%; text-align:left; max-height:400px; overflow-y:auto;">
+                    <p style="margin-bottom:10px; color:var(--blue); font-size:12px;">Click on a question to reveal its answer!</p>
+                    ${cardsHtml}
+                </div>
+              `;
+          }).catch(e => {
+              document.getElementById('flash-content').innerHTML = "Failed to load flashcards.";
+          });
+    }
   </script>
 </body>
 

@@ -38,10 +38,32 @@ class Note(Base):
     module     = Column(Integer, default=0)            # 0 = general, 1–5 = unit numbers
     content    = Column(Text, nullable=False)
     pdf_path   = Column(String, nullable=True)         # path to uploaded PDF if any
+    is_public  = Column(Integer, default=0)            # 1 = public/community, 0 = private
 
     subject = relationship("Subject", back_populates="notes")
     user    = relationship("User", back_populates="notes")
 
+class Flashcard(Base):
+    __tablename__ = "flashcards"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    subject_id = Column(Integer, ForeignKey("subjects.id"))
+    module     = Column(Integer, default=1)
+    question   = Column(Text, nullable=False)
+    answer     = Column(Text, nullable=False)
+
+    subject = relationship("Subject")
+
+class UserProgress(Base):
+    __tablename__ = "user_progress"
+
+    id            = Column(Integer, primary_key=True, index=True)
+    user_id       = Column(Integer, ForeignKey("users.id"))
+    study_streak  = Column(Integer, default=0)
+    mock_score    = Column(Integer, default=0)
+    modules_read  = Column(Integer, default=0)
+
+    user = relationship("User")
 
 class Question(Base):
     __tablename__ = "questions"
